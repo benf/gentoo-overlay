@@ -28,7 +28,7 @@ src_unpack()
 {
 	unpack ${A}
 	cd ${S}
-	sed -i "s/-DENABLE_LPS//" ${S}/HAL/rtl8192/Makefile
+	sed -i "/-DENABLE_LPS/d" ${S}/HAL/rtl8192/Makefile
 }
 src_install() {
 	linux-mod_src_install
