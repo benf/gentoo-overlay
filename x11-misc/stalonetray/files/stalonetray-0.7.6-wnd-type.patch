@@ -1,0 +1,11 @@
+--- tray.orig.c	2008-08-28 12:04:41.000000000 +0000
++++ tray.c	2008-08-28 11:27:56.000000000 +0000
+@@ -573,7 +573,7 @@
+ 			ewmh_add_window_state(tray_data.dpy, tray_data.tray, settings.wnd_layer);
+ 
+ 		/* TODO: CHECK this with compiz */
+-		if (strcmp(settings.wnd_type, _NET_WM_WINDOW_TYPE_NORMAL) == 0)
++		if (strcmp(settings.wnd_type, _NET_WM_WINDOW_TYPE_NORMAL) != 0)
+ 			ewmh_add_window_type(tray_data.dpy, tray_data.tray, settings.wnd_type);
+ 		ewmh_add_window_type(tray_data.dpy, tray_data.tray, _NET_WM_WINDOW_TYPE_NORMAL);
+ 	}

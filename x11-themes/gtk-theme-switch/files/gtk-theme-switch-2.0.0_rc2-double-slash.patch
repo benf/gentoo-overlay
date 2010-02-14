@@ -1,0 +1,40 @@
+--- gtk-theme-switch-2.0.0rc2/switch.c	2002-05-25 06:54:35.000000000 +0000
++++ gtk-theme-switch-2.0.0rc2_new/switch.c	2008-06-14 22:09:39.000000000 +0000
+@@ -666,13 +666,36 @@
+ 	gdk_event_send_clientmessage_toall((GdkEvent *)&event);
+ }
+ 
++gchar *g_str_replace(gchar *subject, gchar *search, gchar *replace) {
++  gchar *string = g_malloc(strlen(subject)+1);
++  strcpy(string, subject);
++  
++  gchar *pos;
++  while ((pos = strstr(string, search)) != NULL) {
++    gchar *tmp = g_malloc(strlen(string)-strlen(search)+strlen(replace)+1);
++    *tmp = '\0';
++
++    strncat(tmp, string, strlen(string)-strlen(pos));
++    strcat(tmp, replace);
++    strcat(tmp, pos+strlen(search));
++
++    g_free(string);
++    string = tmp;
++  }
++
++  return string;
++}
++
+ /* Sets rc_file to the rc_file of the theme if the result is true.
+  * It is the caller's repsonsibility to free rc_file */
+ static short is_themedir (gchar *path, gchar **rc_file)
+ {
+ 	gchar *test_rc_file;
+ 	struct stat info;
+-	test_rc_file = g_strdup_printf ("%s/gtk-2.0/gtkrc",path);
++	gchar *tmp = g_strdup_printf ("%s/gtk-2.0/gtkrc",path);
++	test_rc_file = g_str_replace(tmp, "//", "/");
++	g_free(tmp);
++
+ 	if (stat(test_rc_file, &info) == 0 && (S_ISREG(info.st_mode) || S_ISLNK(info.st_mode)))
+ 	{
+ 		/* $path/gtk/gtkrc exists, and is a regular file */
