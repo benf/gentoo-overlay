@@ -24,6 +24,12 @@ MODULE_NAMES="r8192se_pci(net:${S}/HAL/rtl8192)"
 BUILD_TARGETS="clean modules"
 # MODULESD_R8192SE_ALIASES=('wlan?
 
+src_unpack()
+{
+	unpack ${A}
+	cd ${S}
+	sed -i "s/-DENABLE_LPS//" ${S}/HAL/rtl8192/Makefile
+}
 src_install() {
 	linux-mod_src_install
 
