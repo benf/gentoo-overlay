@@ -20,8 +20,8 @@ RDEPEND=""
 
 S=${WORKDIR}/${MY_P}
 
-MODULE_NAMES="r8192se_pci(net:${S}/HAL/rtl8192)"
-BUILD_TARGETS="clean modules"
+MODULE_NAMES="r8192se_pci(net::${S}/HAL/rtl8192)"
+BUILD_TARGETS="clean all"
 
 src_unpack()
 {
