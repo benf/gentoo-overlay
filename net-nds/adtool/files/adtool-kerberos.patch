@@ -1,0 +1,61 @@
+--- adtool-1.3/src/lib/active_directory.orig.c	2005-05-13 10:10:37.000000000 +0200
++++ adtool-1.3/src/lib/active_directory.c	2009-08-10 12:46:08.000000000 +0200
+@@ -30,12 +30,18 @@
+ char *config_file;
+ 
+ char *uri=NULL;
++#if 0
+ char *binddn=NULL;
+ char *bindpw=NULL;
++#endif
+ char *search_base=NULL;
+ 
+ /* private functions */
+ 
++int ad_sasl_interact(LDAP *ld, unsigned flags, void *defaults, void *interact) {
++	return LDAP_SUCCESS;
++}
++
+ /* connect and authenticate to active directory server.
+ 	returns an ldap connection identifier or 0 on error */
+ LDAP *ad_login() {
+@@ -75,10 +81,12 @@
+ 		while(fscanf(options_fd, "%1023s %1023[^\n]", item, option)!=EOF) {
+ 			if(!uri&&(strcmp(item, "uri")==0))
+ 				uri=strdup(option);
++#if 0			
+ 			else if(!binddn&&(strcmp(item, "binddn")==0))
+ 				binddn=strdup(option);
+ 			else if(!bindpw&&(strcmp(item, "bindpw")==0))
+ 				bindpw=strdup(option);
++#endif
+ 			else if(!search_base&&(strcmp(item, "searchbase")==0))
+ 				search_base=strdup(option);
+ 		}
+@@ -90,6 +98,7 @@
+ 		ad_error_code=AD_MISSING_CONFIG_PARAMETER;
+ 		return 0;
+ 	}
++#if 0
+ 	if(!binddn) {
+ 		snprintf(ad_error_msg, MAX_ERR_LENGTH, "Error: couldn't read active directory binddn parameter from config file %s, ~/.adtool.cfg or command line", config_file);
+ 		ad_error_code=AD_MISSING_CONFIG_PARAMETER;
+@@ -100,6 +109,7 @@
+ 		ad_error_code=AD_MISSING_CONFIG_PARAMETER;
+ 		return 0;
+ 	}
++#endif
+ 
+ 	/* open the connection to the ldap server */
+ 	result=ldap_initialize(&ds, uri);
+@@ -125,7 +135,9 @@
+ 		return 0;
+ 	}
+ 
+-	bindresult=ldap_simple_bind_s(ds, binddn, bindpw);
++	//bindresult=ldap_simple_bind_s(ds, binddn, bindpw);
++	bindresult=ldap_sasl_interactive_bind_s(ds, "", "GSSAPI", NULL, NULL,
++			LDAP_SASL_QUIET, ad_sasl_interact, NULL);
+ 	if(bindresult!=LDAP_SUCCESS) {
+ 		snprintf(ad_error_msg, MAX_ERR_LENGTH, "Error in ldap_bind %s", ldap_err2string(bindresult));
+ 		ad_error_code=AD_SERVER_CONNECT_FAILURE;
