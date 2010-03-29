@@ -3,3 +3,8 @@ h1. Installation
 <pre>
   layman -o http://github.com/benf/overlay/raw/master/layman.xml -f -a ben
 </pre>
+
+configure push url (owner only):
+<pre>
+  git config --replace-all remote.origin.pushurl git@github.com:benf/overlay.git
+</pre>
