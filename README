@@ -1,1 +1,2 @@
-layman -o http://github.com/benf/overlay/raw/master/layman.xml -a ben
+== Installation ==
+layman -o http://github.com/benf/overlay/raw/master/layman.xml -f -a ben
