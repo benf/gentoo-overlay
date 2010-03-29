@@ -7,5 +7,6 @@ h1. Installation
 configure push url (owner only):
 
 <pre>
+  cd $LAYMAN_SOTRAGE/ben/
   git config --replace-all remote.origin.pushurl git@github.com:benf/overlay.git
 </pre>
