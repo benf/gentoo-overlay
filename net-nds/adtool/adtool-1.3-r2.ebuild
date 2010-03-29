@@ -13,7 +13,7 @@ HOMEPAGE="http://gp2x.org/adtool/"
 KEYWORDS="~amd64 ppc ~x86"
 SLOT="0"
 LICENSE="GPL-2"
-IUSE="ssl"
+IUSE="ssl kerberos"
 
 DEPEND="net-nds/openldap
 	ssl?    ( dev-libs/openssl )"
@@ -23,7 +23,7 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}"
 	epatch "${FILESDIR}/adtool-1.3-10-asneeded.patch"
-	epatch "${FILESDIR}/adtool-kerberos.patch"
+	use kerberos && epatch "${FILESDIR}/adtool-kerberos.patch"
 
 	eautomake
 }
