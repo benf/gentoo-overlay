@@ -1,7 +1,7 @@
 h1. Installation
 
 <pre>
-  layman -o http://github.com/benf/overlay/raw/master/layman.xml -f -a ben
+  layman -o http://github.com/benf/gentoo-overlay/raw/master/layman.xml -f -a ben
 </pre>
 
 configure push url (owner only):
