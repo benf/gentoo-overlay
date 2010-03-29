@@ -5,6 +5,7 @@ h1. Installation
 </pre>
 
 configure push url (owner only):
+
 <pre>
   git config --replace-all remote.origin.pushurl git@github.com:benf/overlay.git
 </pre>
