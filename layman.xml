@@ -1,5 +1,5 @@
 <layman>
-	<overlay type="git" src="git://github.com/benf/gentoo-overlay.git" contact="benjaminfranzke@gmail.com" name="ben">
+	<overlay type="git" src="git://github.com/benf/gentoo-overlay.git" contact="benjaminfranzke@googlemail.com" name="ben">
 		<link>http://github.com/benf/gentoo-overlay</link>
 		<description>ben's overlay</description>
 	</overlay>
