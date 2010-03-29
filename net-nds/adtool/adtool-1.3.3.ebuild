@@ -13,7 +13,7 @@ HOMEPAGE="http://gp2x.org/adtool/"
 KEYWORDS="~amd64 ppc ~x86"
 SLOT="0"
 LICENSE="GPL-2"
-IUSE="+ssl kerberos"
+IUSE="ssl kerberos"
 
 DEPEND="net-nds/openldap
 	ssl?    ( dev-libs/openssl )"
