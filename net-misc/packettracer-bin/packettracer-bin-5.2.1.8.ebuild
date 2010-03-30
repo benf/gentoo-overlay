@@ -61,7 +61,7 @@ src_prepare() {
 src_install () {
 	declare PKT_HOME="/opt/${PN}/"
 
-	make_wrapper packettracer ./bin/PacketTracer5 ${PKT_HOME} ./lib32/
+	make_wrapper packettracer ./bin/PacketTracer5 ${PKT_HOME} ./lib/
 
 	newicon art/pkt.png "${PN}.png"
 	make_desktop_entry packettracer "Cisco Packet Tracer" "${PN}" "Application;Network" \
@@ -83,7 +83,7 @@ src_install () {
 	dobin bin/PacketTracer5
 
 	(use qt-static || use amd64 ) && (
-		declare ABI=x86
+		declare ABI=default
 		dolib.so lib/*.so*
 		#dolib.so lib/libQt3Support.so* lib/libQtSql.so*
 	)
