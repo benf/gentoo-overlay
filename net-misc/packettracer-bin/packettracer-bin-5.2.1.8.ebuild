@@ -16,7 +16,7 @@ SRC_URI="http://cisco.netacad.net/cnams/resourcewindow/noncurr/downloadTools/app
 LICENSE="cisco-eula"
 SLOT="0"
 KEYWORDS="~x86 amd64"
-IUSE="doc"
+IUSE="doc qt-static"
 
 DEPEND="app-arch/gzip"
 RDEPEND="${DEPEND}
@@ -24,10 +24,12 @@ RDEPEND="${DEPEND}
 	app-arch/unzip
 	app-arch/zip
 	x86? (
-		x11-libs/qt-gui[qt3support,accessibility]
-		x11-libs/qt-script
-		x11-libs/qt-assistant
-		x11-libs/qt-webkit
+		!qt-static? (
+			x11-libs/qt-gui[qt3support,accessibility]
+			x11-libs/qt-script
+			x11-libs/qt-assistant
+			x11-libs/qt-webkit
+		)
 	)
 	amd64? (
 		app-emulation/emul-linux-x86-baselibs
@@ -80,7 +82,7 @@ src_install () {
 	into "${PKT_HOME}"
 	dobin bin/PacketTracer5
 
-	use amd64 && (
+	(use qt-static || use amd64 ) && (
 		declare ABI=x86
 		dolib.so lib/*.so*
 		#dolib.so lib/libQt3Support.so* lib/libQtSql.so*
