@@ -77,14 +77,13 @@ src_install () {
 			saves/ Sounds/ templates/
 
 	into "${PKT_HOME}"
+	dobin bin/PacketTracer5
+
 	use amd64 && (
 		declare ABI=x86
 		dolib.so lib/*.so*
 		#dolib.so lib/libQt3Support.so* lib/libQtSql.so*
 	)
-
-	dobin bin/linguist
-	dobin bin/PacketTracer5
 
 	insinto "${PKT_HOME}/bin"
 	doins bin/PT.conf
