@@ -16,7 +16,7 @@ SRC_URI="http://cisco.netacad.net/cnams/resourcewindow/noncurr/downloadTools/app
 LICENSE="cisco-eula"
 SLOT="0"
 KEYWORDS="~x86 amd64"
-IUSE=""
+IUSE="doc"
 
 DEPEND="app-arch/gzip"
 RDEPEND="${DEPEND}
@@ -68,9 +68,10 @@ src_install () {
 	insinto /usr/share/mime/packages
 	doins bin/Cisco-*.xml
 
-	dosym /usr/share/doc/${PF}/html "${PKT_HOME}/help/default"
-
-	dohtml -r help/default/*
+	use doc && (
+		dosym /usr/share/doc/${PF}/html "${PKT_HOME}/help/default"
+		dohtml -r help/default/*
+	)
 
 	insinto "${PKT_HOME}"
 	doins -r art/ backgrounds/ extensions/ LANGUAGES/ \
