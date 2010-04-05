@@ -24,13 +24,12 @@ S="${WORKDIR}/${MY_P}/${MY_PN}"
 src_configure() {
 	echo "CC = $(tc-getCC)" > .config
 	cat defconfig >> .config
-
 }
 
 src_compile() {
-	emake ${PN} || die "emake ${PN} failed."
+	emake "${PN}" || die "emake ${PN} failed."
 }
 
 src_install() {
-	dobin ${PN} || die "dobin ${PN} failed."
+	dobin "${PN}" || die "dobin ${PN} failed."
 }
