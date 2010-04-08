@@ -8,7 +8,7 @@ MY_P="${PN}_linux_${PV}"
 
 DESCRIPTION="Legacy driver for the RTL8192se wireless chipset"
 HOMEPAGE="http:///www.realtek.com.tw/"
-SRC_URI="http://launchpadlibrarian.net/38201251/${MY_P}.tar.gz"
+SRC_URI="http://github.com/downloads/benf/gentoo-overlay/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
