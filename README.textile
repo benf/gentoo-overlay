@@ -1,5 +1,13 @@
 h1. Installation
 
+>=app-portage/layman-1.3.0
+
+<pre>
+  layman -a benf
+</pre>
+
+<app-portage/layman-1.3.0
+
 <pre>
   layman -o http://github.com/benf/gentoo-overlay/raw/master/layman.xml -f -a ben
 </pre>
@@ -7,6 +15,6 @@ h1. Installation
 configure push url (owner only):
 
 <pre>
-  cd $LAYMAN_SOTRAGE/ben/
-  git config --replace-all remote.origin.pushurl git@github.com:benf/gentoo-overlay.git
+  cd $LAYMAN_SOTRAGE/ben{f,}/
+  ./configure_git.sh
 </pre>
