@@ -4,7 +4,7 @@
 git config --replace-all remote.origin.fetch   '+refs/heads/*:refs/remotes/origin/*'
 git config --replace-all remote.origin.url     git://git.overlays.gentoo.org/user/benf.git
 git config --replace-all remote.origin.pushurl git+ssh://git@git.overlays.gentoo.org/user/benf.git
-git config --add         remote.origin.pushurl git@github.com:benf/gentoo-overlay
+git config --add         remote.origin.pushurl git+ssh://git@github.com/benf/gentoo-overlay
 
 # overlays.gentoo.org
 git config --replace-all remote.gentoo.fetch   '+refs/heads/*:refs/remotes/gentoo/*'
@@ -14,7 +14,7 @@ git config --replace-all remote.gentoo.pushurl git+ssh://git@git.overlays.gentoo
 # github
 git config --replace-all remote.github.fetch   '+refs/heads/*:refs/remotes/github/*'
 git config --replace-all remote.github.url     git://github.com/benf/gentoo-overlay.git
-git config --replace-all remote.github.pushurl git@github.com:benf/gentoo-overlay.git
+git config --replace-all remote.github.pushurl git+ssh://git@github.com/benf/gentoo-overlay.git
 
 # master branch
 git config branch.master.remote origin
