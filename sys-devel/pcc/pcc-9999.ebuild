@@ -4,9 +4,16 @@
 
 EAPI="2"
 
+ECVS_SERVER="pcc.ludd.ltu.se:/cvsroot"
+ECVS_USER="anonymous"
+ECVS_AUTH="pserver"
+ECVS_MODULE="${PN}"
+
+inherit cvs
+
 DESCRIPTION="The Portage C Compiler"
 HOMEPAGE="http://pcc.ludd.ltu.se/"
-SRC_URI="ftp://pcc.ludd.ltu.se/pub/${PN}/${P}.tgz"
+SRC_URI=""
 
 LICENSE="BSD"
 SLOT="0"
@@ -15,6 +22,8 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
+
+S=${WORKDIR}/${PN}
 
 src_configure() {
 	econf "strip=no" || die "configure failed."
