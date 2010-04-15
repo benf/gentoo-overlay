@@ -9,7 +9,7 @@ ECVS_USER="anonymous"
 ECVS_AUTH="pserver"
 ECVS_MODULE="${PN}"
 
-inherit cvs
+inherit cvs toolchain-funcs
 
 DESCRIPTION="The Portage C Compiler"
 HOMEPAGE="http://pcc.ludd.ltu.se/"
