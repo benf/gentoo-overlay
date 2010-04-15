@@ -10,8 +10,7 @@ ECVS_AUTH="pserver"
 
 ECVS_MODULE="${PN}"
 
-inherit cvs
-#cvs -d :pserver:anonymous@pcc.ludd.ltu.se:/cvsroot co pcc  
+inherit cvs toolchain-funcs
 
 DESCRIPTION="Portable C Compiler libs"
 HOMEPAGE="http://pcc.ludd.ltu.se/"
@@ -26,6 +25,10 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 S=${WORKDIR}/${PN}
+
+src_configure() {
+	CC=$(tc-getCC) econf || die "configure failed"
+}
 
 src_install() {
 	emake DESTDIR="${D}" install || die "install failed."

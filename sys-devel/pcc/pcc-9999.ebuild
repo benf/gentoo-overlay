@@ -20,13 +20,13 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND=""
+DEPEND="sys-devel/pcc-libs"
 RDEPEND="${DEPEND}"
 
 S=${WORKDIR}/${PN}
 
 src_configure() {
-	econf "strip=no" || die "configure failed."
+	CC=$(tc-getCC) econf "strip=no" || die "configure failed."
 }
 
 src_install() {
