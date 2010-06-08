@@ -28,7 +28,7 @@ BUILD_TARGETS="clean all"
 src_prepare() {
 	sed -i "/-DENABLE_LPS/d" "${S}/HAL/rtl8192/Makefile" || \
 		die "sed disabe LPS	failed."
-	epatch "${FILESDIR}/rfkill-2.6.0015.0127.2010.patch" || die "patch rfkill failed."
+#	epatch "${FILESDIR}/rfkill.patch" || die "patch rfkill failed."
 
 }
 src_install() {
