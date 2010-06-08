@@ -25,12 +25,6 @@ S=${WORKDIR}/${MY_P}
 MODULE_NAMES="r8192se_pci(net::${S}/HAL/rtl8192)"
 BUILD_TARGETS="clean all"
 
-src_prepare() {
-	sed -i "/-DENABLE_LPS/d" "${S}/HAL/rtl8192/Makefile" || \
-		die "sed disabe LPS	failed."
-#	epatch "${FILESDIR}/rfkill.patch" || die "patch rfkill failed."
-
-}
 src_install() {
 	linux-mod_src_install
 
