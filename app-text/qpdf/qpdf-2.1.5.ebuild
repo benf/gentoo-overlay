@@ -17,3 +17,9 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 
+src_configure() {
+	econf --disable-stripping || die "configure failed!"
+}
+src_install() {
+	emake DESTDIR="${D}" install || die "make install failed!"
+}
