@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index 20265d8..cd229df 100644
+--- a/Makefile
++++ b/Makefile
+@@ -33,7 +33,7 @@ compositor :					\
+ 	cairo-util.o
+ 
+ compositor : CFLAGS += $(COMPOSITOR_CFLAGS)
+-compositor : LDLIBS += ./libwayland-server.so $(COMPOSITOR_LIBS) -rdynamic -lrt -lEGL -lm
++compositor : LDLIBS += -lwayland-server -L . $(COMPOSITOR_LIBS) -rdynamic -lrt -lEGL -lm
+ 
+ subdirs-all subdirs-clean :
+ 	for f in $(subdirs); do $(MAKE) -C $$f $(@:subdirs-%=%); done

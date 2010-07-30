@@ -1,0 +1,24 @@
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 98e1614..785c126 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -26,7 +26,6 @@ libxkbfile_la_LDFLAGS = -version-number 1:0:2 -no-undefined
+ 
+ libxkbfileincludedir = $(includedir)/X11/extensions
+ libxkbfileinclude_HEADERS = \
+-    $(top_srcdir)/include/X11/extensions/XKM.h\
+     $(top_srcdir)/include/X11/extensions/XKBrules.h\
+     $(top_srcdir)/include/X11/extensions/XKBbells.h\
+     $(top_srcdir)/include/X11/extensions/XKBconfig.h\
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 25bd238..c751953 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -265,7 +265,6 @@ AM_CFLAGS = $(CWARNFLAGS) @XKBFILE_CFLAGS@
+ libxkbfile_la_LDFLAGS = -version-number 1:0:2 -no-undefined
+ libxkbfileincludedir = $(includedir)/X11/extensions
+ libxkbfileinclude_HEADERS = \
+-    $(top_srcdir)/include/X11/extensions/XKM.h\
+     $(top_srcdir)/include/X11/extensions/XKBrules.h\
+     $(top_srcdir)/include/X11/extensions/XKBbells.h\
+     $(top_srcdir)/include/X11/extensions/XKBconfig.h\

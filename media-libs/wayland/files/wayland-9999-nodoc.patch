@@ -1,0 +1,12 @@
+diff --git a/Makefile b/Makefile
+index 2ea2d3a..53a2d85 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,6 +1,6 @@
+ include config.mk
+ 
+-subdirs = clients spec
++subdirs = clients
+ libs = libwayland-server.so libwayland.so
+ 
+ all : $(libs) compositor subdirs-all

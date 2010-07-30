@@ -1,0 +1,34 @@
+diff --git a/Makefile b/Makefile
+index 1969ee9..a75ef82 100644
+--- a/Makefile
++++ b/Makefile
+@@ -39,11 +39,15 @@ subdirs-all subdirs-clean :
+ 	for f in $(subdirs); do $(MAKE) -C $$f $(@:subdirs-%=%); done
+ 
+ install : $(libs) compositor
+-	install -d $(libdir) $(DESTDIR)/$(libdir)/pkgconfig $(DESTDIR)/$(includedir) $(DESTDIR)/$(udev_rules_dir)
++	install -d $(libdir) $(DESTDIR)/$(libdir)/pkgconfig $(DESTDIR)/$(includedir) 
++	install -d $(DESTDIR)/$(udev_rules_dir) 
++	install -d $(DESTDIR)/$(bindir) $(DESTDIR)/$(bindir)/wayland-clients
+ 	install $(libs) $(DESTDIR)/$(libdir)
+ 	install wayland-server.pc wayland.pc $(DESTDIR)/$(libdir)/pkgconfig
+ 	install wayland-util.h wayland-client.h $(DESTDIR)/$(includedir)
+ 	install 70-wayland.rules $(DESTDIR)/$(udev_rules_dir)
++	install compositor $(DESTDIR)/$(bindir)
++	install `find clients/ -type f -perm -o+rx` $(DESTDIR)/$(bindir)/wayland-clients
+
+ 
+ clean : subdirs-clean
+ 	rm -f compositor *.o *.so
+diff --git a/config.mk.in b/config.mk.in
+index fa47cf2..dc3886d 100644
+--- a/config.mk.in
++++ b/config.mk.in
+@@ -2,6 +2,7 @@ CFLAGS = @GCC_CFLAGS@
+ 
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
++bindir = @bindir@
+ udev_rules_dir = @sysconfdir@/udev/rules.d
+ libdir = @libdir@
+ includedir = @includedir@
