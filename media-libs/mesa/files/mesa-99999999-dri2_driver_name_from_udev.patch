@@ -6,7 +6,7 @@ index 77d5987..9acdae3 100644
        goto out;
     }
  
-+   driver = udev_device_get_driver(parent);
++   driver = strdup(udev_device_get_driver(parent));
 +   if (driver != NULL) {
 +   	    _eglLog(_EGL_DEBUG, "pci id for %d: %04x:%04x, driver %s (udev_device_get_driver)",
 +		    fd, vendor_id, chip_id, driver);
