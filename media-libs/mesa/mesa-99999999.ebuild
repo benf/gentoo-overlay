@@ -130,6 +130,8 @@ src_prepare() {
 		EPATCH_SUFFIX="patch" \
 		epatch
 	fi
+	epatch ${FILESDIR}/${P}-dri2_driver_name_from_udev.patch
+
 	# FreeBSD 6.* doesn't have posix_memalign().
 	if [[ ${CHOST} == *-freebsd6.* ]]; then
 		sed -i \
