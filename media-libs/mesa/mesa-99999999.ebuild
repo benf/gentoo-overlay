@@ -256,8 +256,10 @@ src_configure() {
 		$(use_enable !pic asm) \
 		$(use_enable gles1) \
 		$(use_enable gles2) \
+		--with-egl-platforms=x11,kms \
 		--with-dri-drivers=${DRI_DRIVERS} \
 		${myconf}
+
 }
 
 src_install() {

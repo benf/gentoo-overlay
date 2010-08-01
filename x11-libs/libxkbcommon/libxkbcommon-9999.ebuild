@@ -15,7 +15,7 @@ SRC_URI=""
 
 LICENSE="AS-IS"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="=x11-proto/kbproto-99999999"
