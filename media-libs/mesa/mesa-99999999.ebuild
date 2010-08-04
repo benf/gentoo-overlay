@@ -28,6 +28,8 @@ DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
 #SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
+SRC_PATCHES="http://wayland-display-server.googlegroups.com/web/radeon-patches.tar.gz?gda=cuG-ZkcAAAA79DYo3MYfbYr5kMHgPSZHde7om6txvkphbkRRas5DLBoqgRkyQjwlJ2LCQoeJ2UmtxYWoUwbDUV182KCz7BYveV4duv6pDMGhhhZdjQlNAw
+-> radeon_patches.tar.gz"
 if [[ $PV = 9999* ]]; then
 	SRC_URI="${SRC_PATCHES}"
 else
@@ -119,18 +121,22 @@ pkg_setup() {
 }
 
 src_unpack() {
-	[[ $PV = 9999* ]] && git_src_unpack || base_src_unpack
+	#[[ $PV = 9999* ]] && git_src_unpack || base_src_unpack
+	git_src_unpack
+	base_src_unpack
 }
 
 src_prepare() {
 	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
+	#if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
+	if [[ -n ${SRC_PATCHES} ]]; then
 		EPATCH_FORCE="yes" \
-		EPATCH_SOURCE="${WORKDIR}/patches" \
+		EPATCH_SOURCE="${WORKDIR}/radeon-patches" \
 		EPATCH_SUFFIX="patch" \
 		epatch
 	fi
 	epatch ${FILESDIR}/${P}-dri2_driver_name_from_udev.patch
+	epatch ${FILESDIR}/${P}-radeon-support-OPENGLES-1-2-binding.patch
 
 	# FreeBSD 6.* doesn't have posix_memalign().
 	if [[ ${CHOST} == *-freebsd6.* ]]; then

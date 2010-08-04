@@ -1,0 +1,135 @@
+From 18d2f741bd0341766fa6e137fb9bbeecee914b55 Mon Sep 17 00:00:00 2001
+From: ben <benjaminfranzke@googlemail.com>
+Date: Wed, 4 Aug 2010 13:11:25 +0200
+Subject: [PATCH 2/2] radeon: support OPENGLES{1,2} binding
+
+---
+ src/mesa/drivers/dri/r200/r200_context.c           |    2 +-
+ src/mesa/drivers/dri/r300/r300_context.c           |    2 +-
+ src/mesa/drivers/dri/r600/r600_context.c           |    8 +++++++-
+ .../drivers/dri/radeon/radeon_common_context.c     |    3 ++-
+ .../drivers/dri/radeon/radeon_common_context.h     |    1 +
+ src/mesa/drivers/dri/radeon/radeon_context.c       |    2 +-
+ src/mesa/drivers/dri/radeon/radeon_screen.c        |    8 ++++++++
+ 7 files changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/src/mesa/drivers/dri/r200/r200_context.c b/src/mesa/drivers/dri/r200/r200_context.c
+index 5896296..fc40021 100644
+--- a/src/mesa/drivers/dri/r200/r200_context.c
++++ b/src/mesa/drivers/dri/r200/r200_context.c
+@@ -330,7 +330,7 @@ GLboolean r200CreateContext( gl_api api,
+    r200InitShaderFuncs(&functions);
+    radeonInitQueryObjFunctions(&functions);
+ 
+-   if (!radeonInitContext(&rmesa->radeon, &functions,
++   if (!radeonInitContext(&rmesa->radeon, api, &functions,
+ 			  glVisual, driContextPriv,
+ 			  sharedContextPrivate)) {
+      FREE(rmesa);
+diff --git a/src/mesa/drivers/dri/r300/r300_context.c b/src/mesa/drivers/dri/r300/r300_context.c
+index e4b302b..9ee8996 100644
+--- a/src/mesa/drivers/dri/r300/r300_context.c
++++ b/src/mesa/drivers/dri/r300/r300_context.c
+@@ -509,7 +509,7 @@ GLboolean r300CreateContext(gl_api api,
+ 	radeonInitQueryObjFunctions(&functions);
+ 	radeonInitBufferObjectFuncs(&functions);
+ 
+-	if (!radeonInitContext(&r300->radeon, &functions,
++	if (!radeonInitContext(&r300->radeon, api, &functions,
+ 			       glVisual, driContextPriv,
+ 			       sharedContextPrivate)) {
+ 		FREE(r300);
+diff --git a/src/mesa/drivers/dri/r600/r600_context.c b/src/mesa/drivers/dri/r600/r600_context.c
+index 11177f1..cfb1993 100644
+--- a/src/mesa/drivers/dri/r600/r600_context.c
++++ b/src/mesa/drivers/dri/r600/r600_context.c
+@@ -365,6 +365,12 @@ GLboolean r600CreateContext(gl_api api,
+ 	context_t *r600;
+ 	GLcontext *ctx;
+ 
++	__GLcontextModes _visual;
++	if (glVisual == NULL) {
++		printf("glVisual was NULL");
++		memset(&_visual, 0, sizeof _visual);
++		glVisual = &_visual;
++	}
+ 	assert(glVisual);
+ 	assert(driContextPriv);
+ 	assert(screen);
+@@ -393,7 +399,7 @@ GLboolean r600CreateContext(gl_api api,
+ 	r700InitIoctlFuncs(&functions);
+ 	radeonInitBufferObjectFuncs(&functions);
+ 
+-	if (!radeonInitContext(&r600->radeon, &functions,
++	if (!radeonInitContext(&r600->radeon, api, &functions,
+ 			       glVisual, driContextPriv,
+ 			       sharedContextPrivate)) {
+ 		radeon_error("Initializing context failed.\n");
+diff --git a/src/mesa/drivers/dri/radeon/radeon_common_context.c b/src/mesa/drivers/dri/radeon/radeon_common_context.c
+index 6b6764e..19c4375 100644
+--- a/src/mesa/drivers/dri/radeon/radeon_common_context.c
++++ b/src/mesa/drivers/dri/radeon/radeon_common_context.c
+@@ -175,6 +175,7 @@ static void radeonInitDriverFuncs(struct dd_function_table *functions)
+  * including the Mesa context itself.
+  */
+ GLboolean radeonInitContext(radeonContextPtr radeon,
++			    gl_api api,
+ 			    struct dd_function_table* functions,
+ 			    const __GLcontextModes * glVisual,
+ 			    __DRIcontext * driContextPriv,
+@@ -195,7 +196,7 @@ GLboolean radeonInitContext(radeonContextPtr radeon,
+ 		shareCtx = ((radeonContextPtr)sharedContextPrivate)->glCtx;
+ 	else
+ 		shareCtx = NULL;
+-	radeon->glCtx = _mesa_create_context(glVisual, shareCtx,
++	radeon->glCtx = _mesa_create_context_for_api(api, glVisual, shareCtx,
+ 					    functions, (void *)radeon);
+ 	if (!radeon->glCtx)
+ 		return GL_FALSE;
+diff --git a/src/mesa/drivers/dri/radeon/radeon_common_context.h b/src/mesa/drivers/dri/radeon/radeon_common_context.h
+index 5156c5d..7583c4b 100644
+--- a/src/mesa/drivers/dri/radeon/radeon_common_context.h
++++ b/src/mesa/drivers/dri/radeon/radeon_common_context.h
+@@ -601,6 +601,7 @@ static INLINE uint32_t radeonPackFloat24(float f)
+ }
+ 
+ GLboolean radeonInitContext(radeonContextPtr radeon,
++			    gl_api api,
+ 			    struct dd_function_table* functions,
+ 			    const __GLcontextModes * glVisual,
+ 			    __DRIcontext * driContextPriv,
+diff --git a/src/mesa/drivers/dri/radeon/radeon_context.c b/src/mesa/drivers/dri/radeon/radeon_context.c
+index ee65d7f..6cabf8a 100644
+--- a/src/mesa/drivers/dri/radeon/radeon_context.c
++++ b/src/mesa/drivers/dri/radeon/radeon_context.c
+@@ -261,7 +261,7 @@ r100CreateContext( gl_api api,
+    radeonInitTextureFuncs( &rmesa->radeon, &functions );
+    radeonInitQueryObjFunctions(&functions);
+ 
+-   if (!radeonInitContext(&rmesa->radeon, &functions,
++   if (!radeonInitContext(&rmesa->radeon, api, &functions,
+ 			  glVisual, driContextPriv,
+ 			  sharedContextPrivate)) {
+      FREE(rmesa);
+diff --git a/src/mesa/drivers/dri/radeon/radeon_screen.c b/src/mesa/drivers/dri/radeon/radeon_screen.c
+index ba3303e..e5c30a3 100644
+--- a/src/mesa/drivers/dri/radeon/radeon_screen.c
++++ b/src/mesa/drivers/dri/radeon/radeon_screen.c
+@@ -1478,6 +1478,14 @@ radeonCreateScreen2(__DRIscreen *sPriv)
+    screen->drmSupportsVertexProgram = 1;
+    screen->drmSupportsOcclusionQueries = 1;
+    screen->irq = 1;
++	
++   sPriv->api_mask = (1 << __DRI_API_OPENGL);
++#if FEATURE_ES1
++   sPriv->api_mask |= (1 << __DRI_API_GLES);
++#endif
++#if FEATURE_ES2
++   sPriv->api_mask |= (1 << __DRI_API_GLES2);
++#endif
+ 
+    ret = radeonGetParam(sPriv, RADEON_PARAM_DEVICE_ID, &device_id);
+    if (ret) {
+-- 
+1.6.4.4
+
