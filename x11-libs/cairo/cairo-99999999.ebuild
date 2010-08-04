@@ -17,7 +17,7 @@ HOMEPAGE="http://cairographics.org/"
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
 KEYWORDS="alpha amd64 arm hppa ia64 ~mips ppc ppc64 s390 sh sparc x86 ~x86-fbsd ~x86-freebsd ~x86-interix ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
-IUSE="aqua debug directfb doc drm glitz opengl +svg X xcb"
+IUSE="aqua debug directfb doc egl drm glitz opengl +svg X xcb"
 
 # Test causes a circular depend on gtk+... since gtk+ needs cairo but test needs gtk+ so we need to block it
 RESTRICT="test"
@@ -103,6 +103,7 @@ src_configure() {
 		$(use_enable svg) \
 		$(use_enable xcb) \
 		$(use_enable drm) \
+		$(use_enable egl) \
 		--enable-ft \
 		--enable-pdf \
 		--enable-png \

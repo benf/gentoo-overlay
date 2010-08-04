@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="=x11-libs/cairo-99999999[opengl,drm]
+DEPEND="=x11-libs/cairo-99999999[opengl,drm,egl]
 	=x11-libs/libxkbcommon-9999
 	=x11-libs/libdrm-9999[libkms]
 	=media-libs/mesa-99999999[gles1,gles2]
