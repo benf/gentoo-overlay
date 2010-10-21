@@ -34,9 +34,9 @@ RDEPEND="${DEPEND}"
 
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
-EGIT_PATCHES=(
-	"${FILESDIR}/${P}-destdir.patch"
-	"${FILESDIR}/${P}-install-bins.patch"
-	"${FILESDIR}/${P}-nodoc.patch"
-	"${FILESDIR}/${P}-linking.patch"
-)
+#EGIT_PATCHES=(
+#	"${FILESDIR}/${P}-destdir.patch"
+#	"${FILESDIR}/${P}-install-bins.patch"
+#	"${FILESDIR}/${P}-nodoc.patch"
+#	"${FILESDIR}/${P}-linking.patch"
+#)
