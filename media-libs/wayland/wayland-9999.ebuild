@@ -19,24 +19,39 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="x11-libs/cairo[opengl]
+	media-libs/mesa[gles]
 	=x11-libs/libxkbcommon-9999
 	=x11-libs/libdrm-9999[libkms]
-	media-libs/mesa[gles]
-	media-libs/libpng
-	x11-libs/gtk+
+	x11-libs/gtk+:2
 	>=sys-fs/udev-136
 	x11-libs/libxcb
 	dev-libs/glib:2
 	app-text/poppler
-	dev-libs/libffi"
+	dev-libs/libffi
+	dev-libs/expat"
 
 RDEPEND="${DEPEND}"
 
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
-#EGIT_PATCHES=(
-#	"${FILESDIR}/${P}-destdir.patch"
-#	"${FILESDIR}/${P}-install-bins.patch"
-#	"${FILESDIR}/${P}-nodoc.patch"
-#	"${FILESDIR}/${P}-linking.patch"
-#)
+EGIT_PATCHES=(
+	"${FILESDIR}/${P}-toytoolkit-libadd.patch"
+)
+
+src_prepare()
+{
+	sed -i -e /noinst_PROGRAMS/s/noinst/bin/ \
+		{compositor,clients}/Makefile.am || \
+		die "sed clients/Makefile.am failed!"
+	git_src_prepare
+}
+src_install()
+{
+	autotools-utils_src_install
+	mkdir -p "${D}/usr/bin"
+	cd "${D}/usr/bin"
+	for bin in $(ls -1)
+	do
+		mv "${bin}" "wayland_${bin}"
+	done
+}
