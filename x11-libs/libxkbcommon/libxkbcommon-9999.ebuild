@@ -18,5 +18,5 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="=x11-proto/kbproto-99999999"
+DEPEND=">=x11-proto/kbproto-1.0.5"
 RDEPEND="${DEPEND}"
