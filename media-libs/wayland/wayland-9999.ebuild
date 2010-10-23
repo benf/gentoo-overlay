@@ -32,19 +32,18 @@ DEPEND="x11-libs/cairo[opengl]
 
 RDEPEND="${DEPEND}"
 
-AUTOTOOLS_IN_SOURCE_BUILD=1
-
 EGIT_PATCHES=(
 	"${FILESDIR}/${P}-toytoolkit-libadd.patch"
 )
 
 src_prepare()
 {
-	sed -i -e /noinst_PROGRAMS/s/noinst/bin/ \
-		{compositor,clients}/Makefile.am || \
-		die "sed clients/Makefile.am failed!"
+	sed -i -e "/PROGRAMS/s/noinst/bin/" \
+		{compositor,clients}"/Makefile.am" || \
+		die "sed {compositor,clients}/Makefile.am failed!"
 	git_src_prepare
 }
+
 src_install()
 {
 	autotools-utils_src_install
