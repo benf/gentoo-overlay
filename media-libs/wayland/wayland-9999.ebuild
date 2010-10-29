@@ -4,7 +4,7 @@
 
 EAPI=3
 
-EGIT_REPO_URI="git://anongit.freedesktop.org/~krh/wayland"
+EGIT_REPO_URI="git://anongit.freedesktop.org/wayland"
 EGIT_BOOTSTRAP="eautoreconf"
 
 inherit autotools autotools-utils git
@@ -31,10 +31,6 @@ DEPEND="x11-libs/cairo[opengl]
 	dev-libs/expat"
 
 RDEPEND="${DEPEND}"
-
-EGIT_PATCHES=(
-	"${FILESDIR}/${P}-toytoolkit-libadd.patch"
-)
 
 src_prepare()
 {
