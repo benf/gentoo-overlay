@@ -1,0 +1,14 @@
+diff --git a/src/gallium/state_trackers/egl/common/egl_g3d_image.c b/src/gallium/state_trackers/egl/common/egl_g3d_image.c
+index be9c88e..f7091ee 100644
+--- a/src/gallium/state_trackers/egl/common/egl_g3d_image.c
++++ b/src/gallium/state_trackers/egl/common/egl_g3d_image.c
+@@ -178,7 +178,8 @@ egl_g3d_reference_drm_buffer(_EGLDisplay *dpy, EGLint name,
+ 
+    memset(&wsh, 0, sizeof(wsh));
+    wsh.handle = (unsigned) name;
+-   wsh.stride = attrs.DRMBufferStrideMESA;
++    _eglLog(_EGL_DEBUG, "DRMBufferStrideMESA: %d, util_form_blocksize: %d\n", attrs.DRMBufferStrideMESA, util_format_get_blocksize(format));
++   wsh.stride = attrs.DRMBufferStrideMESA * util_format_get_blocksize(templ.format);
+ 
+    return screen->resource_from_handle(screen, &templ, &wsh);
+ }
