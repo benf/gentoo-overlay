@@ -26,7 +26,7 @@ DEPEND=">=x11-libs/cairo-1.10.0[opengl]
 	>=sys-fs/udev-136
 	x11-libs/libxcb
 	dev-libs/glib:2
-	app-text/poppler
+	poppler? ( app-text/poppler )
 	dev-libs/libffi
 	dev-libs/expat"
 
