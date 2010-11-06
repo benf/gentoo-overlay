@@ -16,7 +16,7 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="+poppler"
 
 DEPEND=">=x11-libs/cairo-1.10.0[opengl]
 	media-libs/mesa[gles]
@@ -40,6 +40,15 @@ src_prepare()
 	sed -i -e "/PROGRAMS/s/noinst/bin/" \
 		{compositor,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
+
+	if ! use poppler ; then
+		sed -i \
+			-e '/^view/d' \
+			-e 's/view//' \
+			-e 's/$(POPPLER_\(CFLAGS\|SOURCES\))//' \
+			"clients/Makefile.am" || die
+		sed -i '/POPPLER/d' configure.ac || die
+	fi
 	git_src_prepare
 }
 
