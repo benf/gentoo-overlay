@@ -69,6 +69,11 @@ src_prepare() {
 	# dont install qmake
 	sed -i "/INSTALLS += qmake/d" projects.pro
 	sed -i "/INSTALLS += mkspecs/d" projects.pro
+
+	for tool in idc moc rcc uic uic3
+	do
+		sed -i "/INSTALLS/d" "src/tools/$tool/$tool.pro"
+	done
 }
 
 src_configure() {
@@ -108,11 +113,13 @@ src_configure() {
 	myconf="${myconf} -no-largefile"
 
 	myconf="${myconf} -nomake examples -nomake demos -nomake translations"
-	myconf="${myconf} -nomake tools"
+	myconf="${myconf} -nomake tools -nomake tests"
 	myconf="${myconf} -no-javascript-jit -no-script -no-scripttools"
 	myconf="${myconf} -no-declarative"
 	myconf="${myconf} -fast"
 	! use doc && myconf="${myconf} -nomake docs"
+
+	myconf="${myconf} -no-multimedia"
 
 	# these are the important options to enable wayland-platform building
 	myconf="${myconf} -qpa -opengl es2"
@@ -123,6 +130,7 @@ src_configure() {
 	echo "./configure ${myconf}"
 	./configure ${myconf} || die "configure failed"
 }
+
 src_compile() {
 	export PATH="${S}/bin:${PATH}"
 	export LD_LIBRARY_PATH="${S}/lib:${LD_LIBRARY_PATH}"
