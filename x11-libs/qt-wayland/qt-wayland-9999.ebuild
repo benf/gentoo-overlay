@@ -20,13 +20,15 @@ LICENSE="|| ( GPL-2 GPL-3 )"
 SLOT="4"
 KEYWORDS="-* ~amd64 ~x86"
 
-IUSE="-accessibility debug -doc -cups -firebird +glib gif -mysql -nis -ssl
+IUSE="-accessibility debug -doc -cups -firebird +glib gif -mysql
+	-nis -mng -ssl -tiff
 	-pch -phonon -postgres -qt3support -sqlite svg -vnc -webkit -xmlpatterns"
 
 DEPEND=" || ( media-libs/wayland x11-libs/wayland )
 	media-libs/libpng
 	media-libs/jpeg
-	media-libs/libmng
+	mng? ( media-libs/libmng )
+	tiff? ( media-libs/tiff )
 	media-libs/lcms
 	sys-libs/zlib
 	cups? ( net-print/cups )
@@ -83,6 +85,9 @@ src_configure() {
 	! use nis && myconf="${myconf} -no-nis"
 	! use accessibility && myconf="${myconf} -no-accessibility"
 
+	use mng && myconf="${myconf} -system-libmng" || myconf="${myconf} -no-libmng"
+	use tiff && myconf="${myconf} -system-libtiff" || myconf="${myconf} -no-libtiff"
+
 	# Database support
 	use firebird && myconf="${myconf} -plugin-sql-ibase" || myconf="${myconf} -no-sql-ibase"
 	use mysql && myconf="${myconf} -plugin-sql-mysql" || myconf="${myconf} -no-sql-mysql"
@@ -107,7 +112,7 @@ src_configure() {
 	myconf="${myconf} -qpa -opengl es2"
 
 	# not really needed, but maybe this cleans some stupid *.pro files up..
-	eqmake4 projects.pro
+	# eqmake4 projects.pro
 
 	echo "./configure ${myconf}"
 	./configure ${myconf} || die "configure failed"
