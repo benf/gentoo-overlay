@@ -60,6 +60,17 @@ pkg_setup() {
 	LD_LIBRARY_PATH="${S}/lib:${LD_LIBRARY_PATH}"
 }
 
+src_prepare() {
+	git_src_prepare
+
+	# dont install fonts
+	sed -i "/fonts/d" src/qt_install.pri
+
+	# dont install qmake
+	sed -i "/INSTALLS += qmake/d" projects.pro
+	sed -i "/INSTALLS += mkspecs/d" projects.pro
+}
+
 src_configure() {
 	myconf="-prefix ${QTPREFIXDIR}  -bindir ${QTBINDIR}  -libdir ${QTLIBDIR} \
 		-docdir ${QTDOCDIR} -headerdir ${QTHEADERDIR} -datadir ${QTDATADIR} \
@@ -103,9 +114,10 @@ src_configure() {
 	myconf="${myconf} -no-largefile"
 
 	myconf="${myconf} -nomake examples -nomake demos -nomake translations"
-	myconf="${myconf} -nomake linguist -nomake designer -nomake assistant"
+	myconf="${myconf} -nomake tools"
 	myconf="${myconf} -no-javascript-jit -no-script -no-scripttools"
 	myconf="${myconf} -no-declarative"
+	myconf="${myconf} -fast"
 	! use doc && myconf="${myconf} -nomake docs"
 
 	# these are the important options to enable wayland-platform building
@@ -137,9 +149,6 @@ src_install() {
 		doins -r "${S}"/doc/qch || die "doins failed"
 		dohtml -r "${S}"/doc/html || die "dohtml failed"
 	fi
-
-	# remove qmake as it is not necessary and hard to build unstripped
-	rm -rf "${D}/${QTBINDIR}/qmake"
 }
 
 pkg_postinst() {
