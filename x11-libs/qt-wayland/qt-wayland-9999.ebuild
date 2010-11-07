@@ -10,7 +10,7 @@ EGIT_REPO_URI="git://gitorious.org/~krh/qt/qt-wayland.git"
 EGIT_BRANCH="lighthouse-wayland"
 EGIT_PATCHES=( "${FILESDIR}/config-test-wayland.patch" )
 
-inherit eutils multilib qt4-r2 git
+inherit base eutils multilib git
 
 DESCRIPTION="Qt4 wayland port"
 HOMEPAGE="http://qt.gitorious.org/~krh/qt/qt-wayland"
@@ -118,11 +118,10 @@ src_configure() {
 	./configure ${myconf} || die "configure failed"
 }
 src_compile() {
-	
 	export PATH="${S}/bin:${PATH}"
 	export LD_LIBRARY_PATH="${S}/lib:${LD_LIBRARY_PATH}"
 
-	qt4-r2_src_compile
+	base_src_compile
 
 	# dont know how to get these binaries unstripped yet
 	find ${S} -name Makefile | xargs sed -i /STRIP/d || die
@@ -130,7 +129,8 @@ src_compile() {
 
 src_install() {
 
-	qt4-r2_src_install
+	emake INSTALL_ROOT="${D}" DESTDIR="${D}" install || \
+		die "emake installa	failed"
 
 	if use doc; then
 		insinto "${QTDOCDIR}" || die "insinto failed"
