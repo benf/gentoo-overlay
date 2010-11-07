@@ -91,13 +91,16 @@ src_configure() {
 
 	# video drivers
 	use vnc && myconf="${myconf} -plugin-gfx-vnc" || myconf="${myconf} -no-gfx-vnc"
-	myconf="${myconf} -plugin-gfx-transformed -qt-gfx-multiscreen"
+	#myconf="${myconf} -plugin-gfx-transformed -qt-gfx-multiscreen"
 	# disable unneeded video drivers
 	myconf=$(echo "${myconf} -no-gfx-"{directfb,linuxfb,qvfb})
 
 	myconf="${myconf} -no-largefile"
 
 	myconf="${myconf} -nomake examples -nomake demos -nomake translations"
+	myconf="${myconf} -nomake linguist -nomake designer -nomake assistant"
+	myconf="${myconf} -no-javascript-jit -no-script -no-scripttools"
+	myconf="${myconf} -no-declarative"
 	! use doc && myconf="${myconf} -nomake docs"
 
 	# these are the important options to enable wayland-platform building
