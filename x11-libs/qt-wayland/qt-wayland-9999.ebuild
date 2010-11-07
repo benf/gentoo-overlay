@@ -105,12 +105,6 @@ src_configure() {
 	use postgres && myconf="${myconf} -plugin-sql-psql" || myconf="${myconf} -no-sql-psql"
 	use sqlite && myconf="${myconf} -plugin-sql-sqlite" || myconf="${myconf} -no-sql-sqlite"
 
-	# video drivers
-	use vnc && myconf="${myconf} -plugin-gfx-vnc" || myconf="${myconf} -no-gfx-vnc"
-	#myconf="${myconf} -plugin-gfx-transformed -qt-gfx-multiscreen"
-	# disable unneeded video drivers
-	myconf=$(echo "${myconf} -no-gfx-"{directfb,linuxfb,qvfb})
-
 	myconf="${myconf} -no-largefile"
 
 	myconf="${myconf} -nomake examples -nomake demos -nomake translations"
