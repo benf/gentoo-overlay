@@ -61,4 +61,6 @@ src_install()
 	do
 		mv "${bin}" "wayland_${bin}"
 	done
+	insinto /etc/udev/rules.d
+	doins ${S}/compositor/70-wayland.rules
 }
