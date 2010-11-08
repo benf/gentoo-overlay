@@ -109,6 +109,7 @@ src_configure() {
 	use mysql && myconf="${myconf} -plugin-sql-mysql" || myconf="${myconf} -no-sql-mysql"
 	use postgres && myconf="${myconf} -plugin-sql-psql" || myconf="${myconf} -no-sql-psql"
 	use sqlite && myconf="${myconf} -plugin-sql-sqlite" || myconf="${myconf} -no-sql-sqlite"
+	myconf="${myconf} -no-sql-sqlite2 -no-sql-odbc"
 
 	myconf="${myconf} -no-largefile"
 
