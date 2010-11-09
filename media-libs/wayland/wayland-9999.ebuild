@@ -41,7 +41,7 @@ src_prepare()
 		{compositor,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
 
-	sed -i -e 's:$(sysconfdir)/udev:\0/ruled.d:' compositor/Makefile.am || \
+	sed -i -e 's:$(sysconfdir)/udev:\0/rules.d:' compositor/Makefile.am || \
 		die "sed compositor/Makefile.am failed!"
 
 	if ! use poppler ; then
