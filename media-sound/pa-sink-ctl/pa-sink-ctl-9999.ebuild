@@ -5,7 +5,9 @@
 EAPI=3
 
 EGIT_REPO_URI="git://gitorious.org/pa-sink-ctl/pa-sink-ctl.git"
-inherit git autotools
+EGIT_BOOTSTRAP="eautoreconf"
+
+inherit autotools-utils git
 
 DESCRIPTION="NCurses based Pulseaudio control client"
 HOMEPAGE="http://gitorious.org/pa-sink-ctl"
@@ -20,13 +22,4 @@ DEPEND="media-sound/pulseaudio
 	sys-libs/ncurses"
 RDEPEND="${DEPEND}"
 
-DOCS="README AUTHORS ChangeLog"
-
-src_prepare() {
-	eautoreconf
-}
-
-src_install() {
-	emake DESTDIR="${D}" install || die "Install failed!"
-	dodoc ${DOCS}
-}
+DOCS=( "README" "AUTHORS" "ChangeLog" )
