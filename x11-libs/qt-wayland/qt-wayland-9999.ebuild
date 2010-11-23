@@ -7,8 +7,7 @@
 EAPI="2"
 
 EGIT_REPO_URI="git://gitorious.org/~krh/qt/qt-wayland.git"
-EGIT_BRANCH="lighthouse-wayland"
-EGIT_PATCHES=( "${FILESDIR}/config-test-wayland.patch" )
+EGIT_BRANCH="master"
 
 inherit base eutils multilib git
 
