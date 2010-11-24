@@ -25,7 +25,7 @@ IUSE="-accessibility debug -doc -cups -firebird +glib gif -mysql
 
 DEPEND=" || ( media-libs/wayland x11-libs/wayland )
 	media-libs/libpng
-	media-libs/jpeg
+	virtual/jpeg
 	mng? ( media-libs/libmng )
 	tiff? ( media-libs/tiff )
 	media-libs/lcms
