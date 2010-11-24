@@ -13,7 +13,7 @@ DESCRIPTION="Wayland is a nano display server"
 HOMEPAGE="http://groups.google.com/group/wayland-display-server"
 SRC_URI=""
 
-LICENSE="GPL-2"
+LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="+poppler"
