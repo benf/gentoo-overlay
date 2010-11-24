@@ -32,7 +32,8 @@ DEPEND=">=x11-libs/cairo-1.10.0[opengl]
 
 RDEPEND="${DEPEND}"
 
-EGIT_PATCHES=(
+myeconfargs=(
+	"--program-prefix=wayland_"
 )
 
 src_prepare()
@@ -49,16 +50,6 @@ src_prepare()
 			"clients/Makefile.am" || die
 		sed -i '/POPPLER/d' configure.ac || die
 	fi
-	git_src_prepare
-}
 
-src_install()
-{
-	autotools-utils_src_install
-	mkdir -p "${D}/usr/bin"
-	cd "${D}/usr/bin"
-	for bin in $(ls -1)
-	do
-		mv "${bin}" "wayland_${bin}"
-	done
+	git_src_prepare
 }
