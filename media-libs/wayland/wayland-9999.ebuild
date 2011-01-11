@@ -32,6 +32,7 @@ DEPEND=">=x11-libs/cairo-1.10.0[opengl]
 
 RDEPEND="${DEPEND}"
 
+# FIXME: add with-poppler to wayland configure
 myeconfargs=(
 	"--program-prefix=wayland_"
 )
@@ -41,15 +42,6 @@ src_prepare()
 	sed -i -e "/PROGRAMS/s/noinst/bin/" \
 		{compositor,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
-
-	if ! use poppler ; then
-		sed -i \
-			-e '/^view/d' \
-			-e 's/view//' \
-			-e 's/$(POPPLER_\(CFLAGS\|SOURCES\))//' \
-			"clients/Makefile.am" || die
-		sed -i '/POPPLER/d' configure.ac || die
-	fi
 
 	git_src_prepare
 }
