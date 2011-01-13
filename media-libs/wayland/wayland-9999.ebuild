@@ -9,8 +9,8 @@ EGIT_BOOTSTRAP="eautoreconf"
 
 inherit autotools autotools-utils git
 
-DESCRIPTION="Wayland is a nano display server"
-HOMEPAGE="http://groups.google.com/group/wayland-display-server"
+DESCRIPTION="Wayland is a protocol and library for a (compositing) display server"
+HOMEPAGE="http://wayland.freedesktop.org"
 SRC_URI=""
 
 LICENSE="LGPL-2"
