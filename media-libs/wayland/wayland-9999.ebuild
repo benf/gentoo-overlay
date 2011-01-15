@@ -34,7 +34,7 @@ RDEPEND="${DEPEND}"
 
 # FIXME: add with-poppler to wayland configure
 myeconfargs=(
-	"--program-prefix=wayland_"
+	"--program-prefix=wayland-"
 )
 
 src_prepare()
