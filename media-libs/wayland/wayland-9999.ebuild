@@ -16,7 +16,7 @@ SRC_URI=""
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+poppler"
+IUSE="+poppler +svg"
 
 DEPEND=">=x11-libs/cairo-1.10.0[opengl]
 	media-libs/mesa[gles]
@@ -27,6 +27,7 @@ DEPEND=">=x11-libs/cairo-1.10.0[opengl]
 	x11-libs/libxcb
 	dev-libs/glib:2
 	poppler? ( app-text/poppler[cairo] )
+	svg? ( gnome-base/librsvg )
 	dev-libs/libffi
 	dev-libs/expat"
 
