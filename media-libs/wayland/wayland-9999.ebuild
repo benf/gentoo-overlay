@@ -16,10 +16,11 @@ SRC_URI=""
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+poppler +svg"
+IUSE="clients +poppler +svg"
 
 DEPEND=">=x11-libs/cairo-1.10.0[opengl]
 	media-libs/mesa[gles]
+	clients? ( media-libs/mesa[gles,wayland] )
 	=x11-libs/libxkbcommon-9999
 	=x11-libs/libdrm-9999[libkms]
 	x11-libs/gtk+:2
@@ -43,6 +44,9 @@ src_prepare()
 	sed -i -e "/PROGRAMS/s/noinst/bin/" \
 		{compositor,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
+
+	use clients || sed -i -e "/SUBDIRS/s/clients//" Makefile.am || \
+		die "sed Makefile.am failed!"
 
 	git_src_prepare
 }
