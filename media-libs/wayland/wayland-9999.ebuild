@@ -21,6 +21,7 @@ IUSE="clients +poppler +svg"
 DEPEND=">=x11-libs/cairo-1.10.0[opengl]
 	media-libs/mesa[gles]
 	clients? ( media-libs/mesa[gles,wayland] )
+	x11-libs/pixman
 	=x11-libs/libxkbcommon-9999
 	=x11-libs/libdrm-9999[libkms]
 	x11-libs/gtk+:2
