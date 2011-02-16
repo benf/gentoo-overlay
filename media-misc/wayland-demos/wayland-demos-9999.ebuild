@@ -24,7 +24,7 @@ DEPEND="media-libs/wayland
 	x11-libs/pixman
 	=x11-libs/libxkbcommon-9999
 	=x11-libs/libdrm-9999[libkms]
-	|| ( x11-libs/gtk+:2 x11-libs/gdk-pixbuf:2 )
+	|| ( x11-libs/gtk-pixbuf:2 x11-libs/gtk+:2 )
 	>=sys-fs/udev-136
 	x11-libs/libxcb
 	dev-libs/glib:2
