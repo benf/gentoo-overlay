@@ -20,13 +20,14 @@ IUSE="+poppler +svg"
 
 DEPEND="media-libs/wayland
 	>=x11-libs/cairo-1.10.0[opengl]
-	media-libs/mesa[gles,wayland]
+	>=media-libs/mesa-9999[gles,wayland]
 	x11-libs/pixman
 	=x11-libs/libxkbcommon-9999
 	=x11-libs/libdrm-9999[libkms]
 	|| ( x11-libs/gtk-pixbuf:2 x11-libs/gtk+:2 )
 	>=sys-fs/udev-136
 	x11-libs/libxcb
+	x11-libs/libX11
 	dev-libs/glib:2
 	poppler? ( app-text/poppler[cairo] )
 	svg? ( gnome-base/librsvg )
