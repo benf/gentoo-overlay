@@ -48,3 +48,13 @@ src_prepare()
 
 	git_src_prepare
 }
+
+pkg_postinst()
+{
+	einfo "To run the wayland exmaple compositor as x11 client execute:"
+	einfo "   DISPLAY=:0 EGL_PLATFORM=x11 EGL_DRIVER=egl_dri2 wayland-compositor"
+	einfo
+	einfo "Start the wayland clients with EGL_PLATFORM set to wayland:"
+	einfo "   EGL_PLATFORM=wayland wayland-terminal"
+	einfo
+}
