@@ -45,7 +45,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic d3d debug +gallium gles llvm motif +nptl pic selinux wayland kernel_FreeBSD"
+	+classic d3d debug +egl +gallium gles llvm motif +nptl openvg pic selinux wayland kernel_FreeBSD"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.24"
 # keep correct libdrm and dri2proto dep
@@ -57,7 +57,6 @@ RDEPEND="
 	>=app-admin/eselect-opengl-1.1.1-r2
 	dev-libs/expat
 	dev-libs/libxml2[python]
-	sys-libs/talloc
 	x11-libs/libICE
 	>=x11-libs/libX11-1.3.99.901
 	x11-libs/libXdamage
@@ -68,12 +67,7 @@ RDEPEND="
 	d3d? ( app-emulation/wine )
 	motif? ( x11-libs/openmotif )
 	gallium? (
-		llvm? (
-			amd64? ( dev-libs/udis86 )
-			x86? ( dev-libs/udis86 )
-			x86-fbsd? ( dev-libs/udis86 )
-			sys-devel/llvm
-		)
+		llvm? ( >=sys-devel/llvm-2.7 )
 	)
 	wayland? ( media-libs/wayland )
 	${LIBDRM_DEPSTRING}[video_cards_nouveau?,video_cards_vmware?]
@@ -204,7 +198,15 @@ src_configure() {
 		driver_enable video_cards_via unichrome
 	fi
 
-	myconf="${myconf} $(use_enable gallium)"
+	myconf+="
+		$(use_enable gles gles1)
+		$(use_enable gles gles2)
+		$(use_enable egl)
+		$(use_enable openvg)
+		$(use_enable gallium)
+	"
+	use egl && myconf+="--with-egl-platforms=$(use wayland && echo "wayland,")drm,x11"
+
 	if use !gallium && use !classic; then
 		ewarn "You enabled neither classic nor gallium USE flags. No hardware"
 		ewarn "drivers will be built."
@@ -218,41 +220,39 @@ src_configure() {
 		elog "    Radeon: Newest implementation of r300-r700 driver."
 		elog "    Svga: VMWare Virtual GPU driver."
 		echo
-		myconf="${myconf}
-			--with-state-trackers=glx,dri,egl,vega$(use d3d && echo ",d3d1x")
+		myconf+="
+			--with-state-trackers=glx,dri$(use egl && echo ",egl")$(use openvg && echo ",vega")$(use d3d && echo ",d3d1x")
 			$(use_enable llvm gallium-llvm)
-			$(use_enable gles gles1)
-			$(use_enable gles gles2)
-			$(use_enable gles gles-overlay)
 			$(use_enable video_cards_vmware gallium-svga)
 			$(use_enable video_cards_nouveau gallium-nouveau)
 			$(use_enable video_cards_intel gallium-i915)
 			$(use_enable video_cards_intel gallium-i965)
 			$(use_enable video_cards_radeon gallium-radeon)
-			$(use_enable video_cards_radeon gallium-r600)"
+			$(use_enable video_cards_radeon gallium-r600)
+		"
 		if use video_cards_i915 || \
 				use video_cards_intel; then
-			myconf="${myconf} --enable-gallium-i915"
+			myconf+=" --enable-gallium-i915"
 		else
-			myconf="${myconf} --disable-gallium-i915"
+			myconf+=" --disable-gallium-i915"
 		fi
 		if use video_cards_i965 || \
 				use video_cards_intel; then
-			myconf="${myconf} --enable-gallium-i965"
+			myconf+=" --enable-gallium-i965"
 		else
-			myconf="${myconf} --disable-gallium-i965"
+			myconf+=" --disable-gallium-i965"
 		fi
 		if use video_cards_r300 || \
 				use video_cards_radeon; then
-			myconf="${myconf} --enable-gallium-radeon"
+			myconf+=" --enable-gallium-radeon"
 		else
-			myconf="${myconf} --disable-gallium-radeon"
+			myconf+=" --disable-gallium-radeon"
 		fi
 		if use video_cards_r600 || \
 				use video_cards_radeon; then
-			myconf="${myconf} --enable-gallium-r600"
+			myconf+=" --enable-gallium-r600"
 		else
-			myconf="${myconf} --disable-gallium-r600"
+			myconf+=" --disable-gallium-r600"
 		fi
 	else
 		if use video_cards_nouveau || use video_cards_vmware; then
@@ -263,6 +263,7 @@ src_configure() {
 
 	# --with-driver=dri|xlib|osmesa || do we need osmesa?
 	econf \
+		--enable-shared-dricore \
 		--disable-option-checking \
 		--with-driver=dri \
 		--disable-glut \
@@ -274,7 +275,6 @@ src_configure() {
 		$(use_enable nptl glx-tls) \
 		$(use_enable !pic asm) \
 		--with-dri-drivers=${DRI_DRIVERS} \
-		--with-egl-platforms=x11$(use wayland && echo ",wayland"),drm \
 		${myconf}
 }
 
