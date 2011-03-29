@@ -18,6 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="static-libs"
 
-DEPEND="dev-libs/libffi"
+DEPEND="dev-libs/libffi
+	dev-libs/expat"
 
 RDEPEND="${DEPEND}"
