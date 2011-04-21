@@ -7,7 +7,7 @@ EAPI=3
 EGIT_REPO_URI="git://anongit.freedesktop.org/wayland/wayland-demos"
 EGIT_BOOTSTRAP="eautoreconf"
 
-inherit autotools autotools-utils git
+inherit autotools autotools-utils git-2
 
 DESCRIPTION="demos for wayland the (compositing) display server library"
 HOMEPAGE="http://wayland.freedesktop.org"
@@ -46,7 +46,7 @@ src_prepare()
 		{compositor,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
 
-	git_src_prepare
+	git-2_src_prepare
 }
 
 pkg_postinst()
