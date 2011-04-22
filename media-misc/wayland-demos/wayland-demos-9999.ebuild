@@ -26,7 +26,7 @@ DEPEND="media-libs/wayland
 	=x11-libs/libdrm-9999[libkms]
 	|| ( x11-libs/gtk-pixbuf:2 x11-libs/gtk+:2 )
 	>=sys-fs/udev-136
-	x11-libs/libxcb
+	=x11-libs/libxcb-9999
 	x11-libs/libX11
 	dev-libs/glib:2
 	poppler? ( app-text/poppler[cairo] )
