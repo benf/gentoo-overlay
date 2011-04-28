@@ -16,28 +16,42 @@ SRC_URI=""
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+poppler +svg"
+IUSE="+poppler +svg +clients
+	+compositor-drm +compositor-x11 +compositor-wayland compositor-openwfd"
 
 DEPEND="media-libs/wayland
-	>=x11-libs/cairo-1.10.0[opengl]
 	>=media-libs/mesa-9999[gles,wayland]
 	x11-libs/pixman
 	=x11-libs/libxkbcommon-9999
-	=x11-libs/libdrm-9999[libkms]
-	|| ( x11-libs/gtk-pixbuf:2 x11-libs/gtk+:2 )
-	>=sys-fs/udev-136
-	=x11-libs/libxcb-9999
-	x11-libs/libX11
-	dev-libs/glib:2
-	poppler? ( app-text/poppler[cairo] )
-	svg? ( gnome-base/librsvg )
-	dev-libs/expat"
+	|| ( x11-libs/gdk-pixbuf:2 <x11-libs/gtk+-2.20:2 )
+	compositor-drm? (
+		>=sys-fs/udev-136
+		=x11-libs/libdrm-9999
+	)
+	compositor-x11? (
+		=x11-libs/libxcb-9999
+		x11-libs/libX11
+	)
+	compositor-openwfd? (
+		media-libs/owfdrm
+	)
+	clients? (
+		dev-libs/glib:2
+		>=x11-libs/cairo-1.10.0[opengl]
+		poppler? ( app-text/poppler[cairo] )
+	)
+	svg? ( gnome-base/librsvg )"
 
 RDEPEND="${DEPEND}"
 
 # FIXME: add with-poppler to wayland configure
 myeconfargs=(
 	"--program-prefix=wayland-"
+	$(use_enable clients)
+	$(use_enable compositor-drm)
+	$(use_enable compositor-x11)
+	$(use_enable compositor-wayland)
+	$(use_enable compositor-openwfd)
 )
 
 src_prepare()
