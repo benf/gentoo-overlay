@@ -48,10 +48,10 @@ RDEPEND="${DEPEND}"
 myeconfargs=(
 	"--program-prefix=wayland-"
 	$(use_enable clients)
-	$(use_enable compositor-drm)
-	$(use_enable compositor-x11)
-	$(use_enable compositor-wayland)
-	$(use_enable compositor-openwfd)
+	$(use_enable compositor-drm drm-compositor)
+	$(use_enable compositor-x11 x11-compositor)
+	$(use_enable compositor-wayland wayland-compositor)
+	$(use_enable compositor-openwfd openwfd-compositor)
 )
 
 src_prepare()
@@ -59,8 +59,6 @@ src_prepare()
 	sed -i -e "/PROGRAMS/s/noinst/bin/" \
 		{compositor,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
-
-	git-2_src_prepare
 }
 
 pkg_postinst()
