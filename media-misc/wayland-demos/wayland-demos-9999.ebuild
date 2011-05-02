@@ -23,7 +23,7 @@ DEPEND="media-libs/wayland
 	>=media-libs/mesa-9999[gles,wayland]
 	x11-libs/pixman
 	=x11-libs/libxkbcommon-9999
-	|| ( x11-libs/gdk-pixbuf:2 <x11-libs/gtk+-2.20:2 )
+	media-libs/libpng
 	compositor-drm? (
 		>=sys-fs/udev-136
 		=x11-libs/libdrm-9999
@@ -38,6 +38,7 @@ DEPEND="media-libs/wayland
 	clients? (
 		dev-libs/glib:2
 		>=x11-libs/cairo-1.10.0[opengl]
+		|| ( x11-libs/gdk-pixbuf:2 <x11-libs/gtk+-2.20:2 )
 		poppler? ( app-text/poppler[cairo] )
 	)
 	svg? ( gnome-base/librsvg )"
