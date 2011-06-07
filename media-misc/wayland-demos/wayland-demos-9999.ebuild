@@ -26,7 +26,7 @@ DEPEND="media-libs/wayland
 	media-libs/libpng
 	compositor-drm? (
 		>=sys-fs/udev-136
-		=x11-libs/libdrm-9999
+		>=x11-libs/libdrm-2.4.25
 	)
 	compositor-x11? (
 		=x11-libs/libxcb-9999
