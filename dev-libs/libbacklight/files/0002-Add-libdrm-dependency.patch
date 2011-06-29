@@ -1,0 +1,54 @@
+From b5ddc043f3b4ed93265344632c7ab66dd83f99e0 Mon Sep 17 00:00:00 2001
+From: Benjamin Franzke <benjaminfranzke@googlemail.com>
+Date: Wed, 29 Jun 2011 10:43:43 +0200
+Subject: [PATCH 2/2] Add libdrm dependency
+
+Also fix drm_mode.h include path.
+It needs to be retreived from libdrm pkgconfig.
+---
+ Makefile.am    |    2 +-
+ configure.ac   |    1 +
+ libbacklight.c |    2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index cb49f94..d91d8eb 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -3,7 +3,7 @@ dist_doc_DATA = README COPYING
+ include_HEADERS = libbacklight.h
+ lib_LTLIBRARIES = libbacklight.la
+ libbacklight_la_SOURCES = libbacklight.c libbacklight.h
+-libbacklight_la_CFLAGS = $(PCIACCESS_CFLAGS)
++libbacklight_la_CFLAGS = $(PCIACCESS_CFLAGS) $(LIBDRM_CFLAGS)
+ libbacklight_la_LIBADD = $(PCIACCESS_LIBS)
+ 
+ ACLOCAL_AMFLAGS = -I m4
+diff --git a/configure.ac b/configure.ac
+index 104ade2..8dadf15 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -12,5 +12,6 @@ AM_SILENT_RULES([yes])
+ AC_PROG_CC
+ AC_PROG_LIBTOOL
+ PKG_CHECK_MODULES([PCIACCESS], [pciaccess >= 0.10.0])
++PKG_CHECK_MODULES([LIBDRM], [libdrm])
+ AC_CONFIG_FILES([Makefile libbacklight.pc])
+ AC_OUTPUT
+\ No newline at end of file
+diff --git a/libbacklight.c b/libbacklight.c
+index fa78be2..2802052 100644
+--- a/libbacklight.c
++++ b/libbacklight.c
+@@ -35,7 +35,7 @@
+ #include <linux/types.h>
+ #include <dirent.h>
+ #include <sys/stat.h>
+-#include <drm/drm_mode.h>
++#include <drm_mode.h>
+ #include <fcntl.h>
+ #include <malloc.h>
+ #include <string.h>
+-- 
+1.7.3.4
+

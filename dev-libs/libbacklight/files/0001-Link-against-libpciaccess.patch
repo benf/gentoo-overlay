@@ -1,0 +1,26 @@
+From 17598863e0a97a9559fcf6ab8d8fab765ffa8f26 Mon Sep 17 00:00:00 2001
+From: Benjamin Franzke <benjaminfranzke@googlemail.com>
+Date: Wed, 29 Jun 2011 10:42:52 +0200
+Subject: [PATCH 1/2] Link against libpciaccess
+
+---
+ Makefile.am |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index aa229bc..cb49f94 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -3,7 +3,8 @@ dist_doc_DATA = README COPYING
+ include_HEADERS = libbacklight.h
+ lib_LTLIBRARIES = libbacklight.la
+ libbacklight_la_SOURCES = libbacklight.c libbacklight.h
+-libatasmart_la_CFLAGS = $(PCIACCESS_CFLAGS)
++libbacklight_la_CFLAGS = $(PCIACCESS_CFLAGS)
++libbacklight_la_LIBADD = $(PCIACCESS_LIBS)
+ 
+ ACLOCAL_AMFLAGS = -I m4
+ 
+-- 
+1.7.3.4
+
