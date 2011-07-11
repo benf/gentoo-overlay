@@ -45,7 +45,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic d3d debug +egl +gallium gles +llvm motif +nptl openvg pic selinux shared-dricore wayland kernel_FreeBSD"
+	bindist +classic d3d debug +egl +gallium gles +llvm motif +nptl openvg pic selinux shared-dricore +shared-glapi wayland kernel_FreeBSD"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.24"
 # not a runtime dependency of this package, but dependency of packages which
@@ -124,12 +124,13 @@ pkg_setup() {
 }
 
 src_unpack() {
-	[[ $PV = 9999* ]] && git-2_src_unpack || base_src_unpack
+	default
+	[[ $PV = 9999* ]] && git-2_src_unpack
 }
 
 src_prepare() {
 	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
+	if [[ -n ${SRC_PATCHES} ]]; then
 		EPATCH_FORCE="yes" \
 		EPATCH_SOURCE="${WORKDIR}/patches" \
 		EPATCH_SUFFIX="patch" \
@@ -208,9 +209,14 @@ src_configure() {
 		$(use_enable gles gles2)
 		$(use_enable egl)
 		$(use_enable openvg)
-		$(use_enable gallium)
 	"
-	use egl && myconf+="--with-egl-platforms=$(use wayland && echo "wayland,")drm,x11"
+	if use egl; then
+		use shared-glapi || die "egl needs shared-glapi. Please either enable shared-glapi or disable the egl use flag ."
+		myconf+="
+			--with-egl-platforms=x11,$(use wayland && echo "wayland,")drm
+			$(use_enable gallium gallium-egl)
+		"
+	fi
 
 	if use !gallium && use !classic; then
 		ewarn "You enabled neither classic nor gallium USE flags. No hardware"
@@ -220,36 +226,22 @@ src_configure() {
 		myconf+="
 			--with-state-trackers=glx,dri$(use egl && echo ",egl")$(use openvg && echo ",vega")$(use d3d && echo ",d3d1x")
 			$(use_enable llvm gallium-llvm)
-			$(use_enable video_cards_vmware gallium-svga)
-			$(use_enable video_cards_nouveau gallium-nouveau)
-			$(use_enable video_cards_intel gallium-i915)
-			$(use_enable video_cards_intel gallium-i965)
-			$(use_enable video_cards_radeon gallium-r300)
-			$(use_enable video_cards_radeon gallium-r600)
 		"
-		if use video_cards_i915 || \
-				use video_cards_intel; then
-			myconf+=" --enable-gallium-i915"
-		else
-			myconf+=" --disable-gallium-i915"
+		gallium_enable swrast
+		gallium_enable video_cards_vmware svga
+		gallium_enable video_cards_nouveau nouveau
+		gallium_enable video_cards_i915 i915
+		gallium_enable video_cards_i965 i965
+		if ! use video_cards_i915 && \
+				! use video_cards_i965; then
+			gallium_enable video_cards_intel i915 i965
 		fi
-		if use video_cards_i965 || \
-				use video_cards_intel; then
-			myconf+=" --enable-gallium-i965"
-		else
-			myconf+=" --disable-gallium-i965"
-		fi
-		if use video_cards_r300 || \
-				use video_cards_radeon; then
-			myconf+=" --enable-gallium-r300"
-		else
-			myconf+=" --disable-gallium-r300"
-		fi
-		if use video_cards_r600 || \
-				use video_cards_radeon; then
-			myconf+=" --enable-gallium-r600"
-		else
-			myconf+=" --disable-gallium-r600"
+
+		gallium_enable video_cards_r300 r300
+		gallium_enable video_cards_r600 r600
+		if ! use video_cards_r300 && \
+				! use video_cards_r600; then
+			gallium_enable video_cards_radeon r300 r600
 		fi
 	else
 		if use video_cards_nouveau || use video_cards_vmware; then
@@ -271,7 +263,9 @@ src_configure() {
 		$(use_enable nptl glx-tls) \
 		$(use_enable !pic asm) \
 		$(use_enable shared-dricore) \
+		$(use_enable shared-glapi) \
 		--with-dri-drivers=${DRI_DRIVERS} \
+		--with-gallium-drivers=${GALLIUM_DRIVERS} \
 		${myconf}
 }
 
@@ -295,7 +289,7 @@ src_install() {
 
 	# Install config file for eselect mesa
 	insinto /usr/share/mesa
-	newins "${FILESDIR}/eselect-mesa.conf.7.11" eselect-mesa.conf || die
+	newins "${FILESDIR}/eselect-mesa.conf.7.12" eselect-mesa.conf || die
 
 	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib
 	# because user can eselect desired GL provider.
@@ -369,6 +363,7 @@ pkg_postinst() {
 
 # $1 - VIDEO_CARDS flag
 # other args - names of DRI drivers to enable
+# TODO: avoid code duplication for a more elegant implementation
 driver_enable() {
 	case $# in
 		# for enabling unconditionally
@@ -380,6 +375,23 @@ driver_enable() {
 				shift
 				for i in $@; do
 					DRI_DRIVERS+=",${i}"
+				done
+			fi
+			;;
+	esac
+}
+
+gallium_enable() {
+	case $# in
+		# for enabling unconditionally
+		1)
+			GALLIUM_DRIVERS+=",$1"
+			;;
+		*)
+			if use $1; then
+				shift
+				for i in $@; do
+					GALLIUM_DRIVERS+=",${i}"
 				done
 			fi
 			;;
