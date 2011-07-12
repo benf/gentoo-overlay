@@ -20,6 +20,7 @@ IUSE=""
 
 DEPEND="dev-libs/protobuf-c
 	>=dev-libs/glib-2.28:2
+	net-libs/glib-networking[ssl]
 	media-libs/gstreamer
 	media-libs/celt
 	media-libs/gst-plugins-base
