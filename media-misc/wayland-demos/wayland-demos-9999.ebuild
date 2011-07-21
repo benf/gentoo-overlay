@@ -29,7 +29,7 @@ DEPEND="media-libs/wayland
 		>=x11-libs/libdrm-2.4.25
 	)
 	compositor-x11? (
-		=x11-libs/libxcb-9999
+		x11-libs/libxcb
 		x11-libs/libX11
 	)
 	compositor-openwfd? (
