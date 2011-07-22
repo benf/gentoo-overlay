@@ -1,7 +1,7 @@
 # Benjamin Franzke <benjaminfranzke@googlemail.com> (30 Juli 2010)
 # wayland live ebuilds
-=media-libs/mesa-99999999
-=media-libs/wayland-9999
+=media-libs/mesa-99999999::benf
+=media-libs/wayland-9999::benf
 
 # Benjamin Franzke <benjaminfranzke@googlemail.com> (22 Juli 2011)
 # gst-plugins-vaapi live ebuild
