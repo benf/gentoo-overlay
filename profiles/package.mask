@@ -2,10 +2,6 @@
 # wayland live ebuilds
 =media-libs/mesa-99999999
 =media-libs/wayland-9999
-=x11-libs/libxkbcommon-9999
-=x11-libs/libxkbfile-1.0.6-r1
-=x11-proto/kbproto-99999999
-
 
 # Benjamin Franzke <benjaminfranzke@googlemail.com> (22 Juli 2011)
 # gst-plugins-vaapi live ebuild
