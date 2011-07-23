@@ -5,5 +5,5 @@
 
 # Benjamin Franzke <benjaminfranzke@googlemail.com> (22 Juli 2011)
 # gst-plugins-vaapi live ebuild
-=media-plugins/gst-plugins-vaapi-9999::benf
+=media-plugins/gst-plugins-vaapi-9999
 
