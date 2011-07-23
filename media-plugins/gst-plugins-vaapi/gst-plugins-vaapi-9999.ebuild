@@ -11,7 +11,7 @@ inherit autotools autotools-utils git-2
 
 MY_PN="gstreamer-vaapi"
 DESCRIPTION="GStreamer VA-API plugins"
-HOMEPAGE="http://www.splitted-desktop.com/~gbeauchesne/gst-plugins-vaapi/"
+HOMEPAGE="http://www.splitted-desktop.com/~gbeauchesne/gstreamer-vaapi/"
 SRC_URI=""
 
 LICENSE="GPL-2"

@@ -8,7 +8,7 @@ inherit autotools autotools-utils
 
 MY_PN="gstreamer-vaapi"
 DESCRIPTION="GStreamer VA-API plugins"
-HOMEPAGE="http://www.splitted-desktop.com/~gbeauchesne/gst-plugins-vaapi/"
+HOMEPAGE="http://www.splitted-desktop.com/~gbeauchesne/gstreamer-vaapi/"
 SRC_URI="http://www.splitted-desktop.com/~gbeauchesne/${MY_PN}/${MY_PN}-${PV}.tar.gz"
 
 LICENSE="GPL-2"
