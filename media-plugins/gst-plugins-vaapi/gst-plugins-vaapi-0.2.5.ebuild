@@ -13,7 +13,7 @@ SRC_URI="http://www.splitted-desktop.com/~gbeauchesne/${MY_PN}/${MY_PN}-${PV}.ta
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="static-libs"
 
 DEPEND="dev-libs/glib:2

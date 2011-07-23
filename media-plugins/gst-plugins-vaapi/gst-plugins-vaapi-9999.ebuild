@@ -16,7 +16,7 @@ SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="static-libs"
 
 DEPEND="dev-libs/glib:2
