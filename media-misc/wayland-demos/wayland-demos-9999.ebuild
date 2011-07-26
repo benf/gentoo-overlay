@@ -47,7 +47,8 @@ RDEPEND="${DEPEND}"
 
 # FIXME: add with-poppler to wayland configure
 myeconfargs=(
-	"--program-prefix=wayland-"
+	# prefix with "wayland-" if not already
+	"--program-transform-name='/^wayland-/!s/^/wayland-/'"
 	$(use_enable clients)
 	$(use_enable simple-clients)
 	$(use_enable compositor-drm drm-compositor)
