@@ -16,7 +16,7 @@ SRC_URI=""
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+poppler +svg +clients
+IUSE="+poppler +svg +clients +simple-clients
 	+compositor-drm +compositor-x11 +compositor-wayland compositor-openwfd"
 
 DEPEND="media-libs/wayland
@@ -49,6 +49,7 @@ RDEPEND="${DEPEND}"
 myeconfargs=(
 	"--program-prefix=wayland-"
 	$(use_enable clients)
+	$(use_enable simple-clients)
 	$(use_enable compositor-drm drm-compositor)
 	$(use_enable compositor-x11 x11-compositor)
 	$(use_enable compositor-wayland wayland-compositor)
