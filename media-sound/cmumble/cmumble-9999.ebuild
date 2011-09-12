@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="dev-libs/protobuf-c
+DEPEND="dev-libs/protobuf-c[protoc]
 	>=dev-libs/glib-2.28:2
 	net-libs/glib-networking[ssl]
 	media-libs/gstreamer
