@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit autotools autotools-utils
+inherit autotools-utils
 
 DESCRIPTION="C bindings for Google's Protocol Buffers"
 HOMEPAGE="http://protobuf-c.googlecode.com/"
@@ -13,8 +13,15 @@ SRC_URI="${HOMEPAGE}/files/${P}.tar.gz"
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 x86"
-IUSE="static-libs"
+IUSE="protoc static-libs"
 
-DEPEND="dev-libs/protobuf"
+DEPEND="protoc? ( dev-libs/protobuf )"
 
 RDEPEND="${DEPEND}"
+
+src_configure() {
+	local myeconfargs=(
+		$(use_enable protoc)
+	)
+	autotools-utils_src_configure
+}
