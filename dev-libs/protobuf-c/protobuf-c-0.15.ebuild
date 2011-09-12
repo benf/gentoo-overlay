@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit autotools-utils
+inherit toolchain-funcs autotools-utils
 
 DESCRIPTION="C bindings for Google's Protocol Buffers"
 HOMEPAGE="http://protobuf-c.googlecode.com/"
@@ -22,6 +22,7 @@ RDEPEND="${DEPEND}"
 src_configure() {
 	local myeconfargs=(
 		$(use_enable protoc)
+		"--with-endianness=$(tc-endian)"
 	)
 	autotools-utils_src_configure
 }
