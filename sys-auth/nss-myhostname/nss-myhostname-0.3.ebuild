@@ -6,7 +6,7 @@ EAPI=3
 
 inherit autotools-utils
 
-DESCRIPTION="$PN provides host name resolution for the locally system hostname"
+DESCRIPTION="NSS local hostname resolution"
 HOMEPAGE="http://0pointer.de/lennart/projects/nss-myhostname/"
 SRC_URI="http://0pointer.de/lennart/projects/$PN/$P.tar.gz"
 
@@ -19,7 +19,9 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_configure() {
-	local myeconfargs="--disable-lynx"
+	local myeconfargs=(
+		"--disable-lynx"
+	)
 	autotools-utils_src_configure
 }
 
