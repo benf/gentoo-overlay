@@ -12,7 +12,7 @@ SRC_URI="${HOMEPAGE}/files/${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS="~amd64 x86"
+KEYWORDS="amd64 x86"
 IUSE="protoc static-libs"
 
 DEPEND="protoc? ( dev-libs/protobuf )"
