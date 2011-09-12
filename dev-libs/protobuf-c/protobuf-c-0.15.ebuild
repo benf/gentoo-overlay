@@ -10,7 +10,7 @@ DESCRIPTION="C bindings for Google's Protocol Buffers"
 HOMEPAGE="http://protobuf-c.googlecode.com/"
 SRC_URI="${HOMEPAGE}/files/${P}.tar.gz"
 
-LICENSE="BSD-2"
+LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="protoc static-libs"
