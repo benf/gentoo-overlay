@@ -18,6 +18,11 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
+src_configure() {
+	local myeconfargs="--disable-lynx"
+	autotools-utils_src_configure
+}
+
 pkg_postinst() {
 	einfo 'To activate the NSS modules you have to edit /etc/nsswitch.conf'
 	einfo 'and add myhostname to the line starting with "hosts:"'
