@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit autotools-utils
+inherit autotools-utils multilib
 
 DESCRIPTION="NSS local hostname resolution"
 HOMEPAGE="http://0pointer.de/lennart/projects/nss-myhostname/"
@@ -23,7 +23,7 @@ foreachabi() {
 
 	for ABI in $(get_all_abis); do
 		multilib_toolchain_setup ${ABI}
-		AUTOTOOLS_BUILD_DIR=${WORKDIR}/${ABI} "${@}"
+		AUTOTOOLS_BUILD_DIR=${WORKDIR}/${P}_build_${ABI} "${@}"
 	done
 }
 
