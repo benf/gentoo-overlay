@@ -18,11 +18,28 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
+foreachabi() {
+	local ABI
+
+	for ABI in $(get_all_abis); do
+		multilib_toolchain_setup ${ABI}
+		AUTOTOOLS_BUILD_DIR=${WORKDIR}/${ABI} "${@}"
+	done
+}
+
 src_configure() {
 	local myeconfargs=(
 		"--disable-lynx"
 	)
-	autotools-utils_src_configure
+	foreachabi autotools-utils_src_configure
+}
+
+src_compile() {
+	foreachabi autotools-utils_src_compile
+}
+
+src_install() {
+	foreachabi autotools-utils_src_install
 }
 
 pkg_postinst() {
