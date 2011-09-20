@@ -20,7 +20,12 @@ IUSE="+poppler +svg +clients +simple-clients
 	+compositor-drm +compositor-x11 +compositor-wayland compositor-openwfd"
 
 DEPEND="media-libs/wayland
-	>=media-libs/mesa-9999[gles,wayland]
+	>=media-libs/mesa-9999[gles2,egl]
+	simple-clients? ( media-libs/mesa[wayland] )
+	clients? ( media-libs/mesa[wayland] )
+	compositor-wayland? ( media-libs/mesa[wayland] )
+	compositor-openwfd? ( media-libs/mesa[gbm] )
+	compositor-drm? ( media-libs/mesa[gbm] )
 	x11-libs/pixman
 	=x11-libs/libxkbcommon-9999
 	media-libs/libpng
