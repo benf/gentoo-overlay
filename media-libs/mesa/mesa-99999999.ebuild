@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=4
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 
@@ -11,7 +11,7 @@ if [[ ${PV} = 9999* ]]; then
 	EXPERIMENTAL="true"
 fi
 
-inherit base autotools multilib flag-o-matic python toolchain-funcs ${GIT_ECLASS}
+inherit base autotools multilib flag-o-matic toolchain-funcs ${GIT_ECLASS}
 
 OPENGL_DIR="xorg-x11"
 
@@ -33,26 +33,48 @@ else
 		${SRC_PATCHES}"
 fi
 
-LICENSE="LGPL-2 kilgard"
+# Most of the code is MIT/X11.
+# ralloc is LGPL-3
+# GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
+LICENSE="MIT LGPL-3 SGI-B-2.0"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sh ~sparc ~x86 ~x86-fbsd ~x86-freebsd ~amd64-linux ~ia64-linux ~x86-linux ~sparc-solaris ~x64-solaris ~x86-solaris"
 
-INTEL_CARDS="i810 i915 i965 intel"
+INTEL_CARDS="i915 i965 intel"
 RADEON_CARDS="r100 r200 r300 r600 radeon"
-VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} mach64 mga nouveau r128 savage sis vmware tdfx via"
+VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} nouveau vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic d3d debug +egl +gallium gles +llvm motif +nptl openvg pic selinux shared-dricore +shared-glapi wayland kernel_FreeBSD"
+	bindist +classic d3d debug +egl g3dvl +gallium gbm gles1 gles2 +llvm +nptl openvg pax_kernel pic selinux shared-dricore +shared-glapi vdpau wayland xvmc kernel_FreeBSD"
+
+REQUIRED_USE="
+	d3d?    ( gallium )
+	g3dvl?  ( gallium )
+	llvm?   ( gallium )
+	openvg? ( gallium )
+	egl? ( shared-glapi )
+	gallium? (
+		video_cards_r300?   ( x86? ( llvm ) amd64? ( llvm ) )
+		video_cards_radeon? ( x86? ( llvm ) amd64? ( llvm ) )
+	)
+	g3dvl? ( || ( vdpau xvmc ) )
+	vdpau? ( g3dvl )
+	xvmc?  ( g3dvl )
+	video_cards_i915?   ( classic )
+	video_cards_r100?   ( classic )
+	video_cards_r200?   ( classic )
+	video_cards_vmware? ( gallium )
+"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.24"
 # not a runtime dependency of this package, but dependency of packages which
 # depend on this package, bug #342393
 EXTERNAL_DEPEND="
-	>=x11-proto/dri2proto-2.2
-	>=x11-proto/glproto-1.4.11
+	>=x11-proto/dri2proto-2.6
+	>=x11-proto/glproto-1.4.14
 "
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
@@ -61,22 +83,17 @@ RDEPEND="${EXTERNAL_DEPEND}
 	!<=x11-proto/xf86driproto-2.0.3
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
-	>=app-admin/eselect-opengl-1.1.1-r2
+	>=app-admin/eselect-opengl-1.2.2
 	dev-libs/expat
-	dev-libs/libxml2[python]
-	x11-libs/libICE
+	gbm? ( sys-fs/udev )
 	>=x11-libs/libX11-1.3.99.901
 	x11-libs/libXdamage
 	x11-libs/libXext
-	x11-libs/libXi
-	x11-libs/libXmu
 	x11-libs/libXxf86vm
 	d3d? ( app-emulation/wine )
-	motif? ( x11-libs/openmotif )
-	gallium? (
-		llvm? ( >=sys-devel/llvm-2.9 )
-	)
+	vdpau? ( >=x11-libs/libvdpau-0.4.1 )
 	wayland? ( media-libs/wayland )
+	xvmc? ( x11-libs/libXvMC )
 	${LIBDRM_DEPSTRING}[video_cards_nouveau?,video_cards_vmware?]
 "
 for card in ${INTEL_CARDS}; do
@@ -92,10 +109,13 @@ for card in ${RADEON_CARDS}; do
 done
 
 DEPEND="${RDEPEND}
+	llvm? ( >=sys-devel/llvm-2.9 )
 	=dev-lang/python-2*
+	dev-libs/libxml2[python]
 	dev-util/pkgconfig
+	sys-devel/bison
+	sys-devel/flex
 	x11-misc/makedepend
-	x11-proto/inputproto
 	>=x11-proto/xextproto-7.0.99.1
 	x11-proto/xf86driproto
 	x11-proto/xf86vidmodeproto
@@ -118,9 +138,6 @@ pkg_setup() {
 
 	# recommended by upstream
 	append-flags -ffast-math
-
-	python_set_active_version 2
-	python_pkg_setup
 }
 
 src_unpack() {
@@ -130,30 +147,19 @@ src_unpack() {
 
 src_prepare() {
 	# apply patches
-	if [[ -n ${SRC_PATCHES} ]]; then
+	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
 		EPATCH_FORCE="yes" \
 		EPATCH_SOURCE="${WORKDIR}/patches" \
 		EPATCH_SUFFIX="patch" \
 		epatch
 	fi
-	# FreeBSD 6.* doesn't have posix_memalign().
-	if [[ ${CHOST} == *-freebsd6.* ]]; then
-		sed -i \
-			-e "s/-DHAVE_POSIX_MEMALIGN//" \
-			configure.ac || die
-	fi
+
+	# fix for hardened pax_kernel, bug 240956
+	[[ ${PV} != 9999* ]] && epatch "${FILESDIR}"/glx_ro_text_segm.patch
+
 	# Solaris needs some recent POSIX stuff in our case
 	if [[ ${CHOST} == *-solaris* ]] ; then
 		sed -i -e "s/-DSVR4/-D_POSIX_C_SOURCE=200112L/" configure.ac || die
-		sed -i -e 's/uint/unsigned int/g' src/egl/drivers/glx/egl_glx.c || die
-	fi
-
-	# In order for mesa to complete it's build process we need to use a tool
-	# that it compiles. When we cross compile this clearly does not work
-	# so we require mesa to be built on the host system first. -solar
-	if tc-is-cross-compiler; then
-		sed -i -e "s#^GLSL_CL = .*\$#GLSL_CL = glsl_compiler#g" \
-			"${S}"/src/mesa/shader/slang/library/Makefile || die
 	fi
 
 	base_src_prepare
@@ -169,23 +175,17 @@ src_configure() {
 		driver_enable swrast
 
 	# Intel code
-		driver_enable video_cards_i810 i810
 		driver_enable video_cards_i915 i915
 		driver_enable video_cards_i965 i965
-			if ! use video_cards_i810 && \
-				! use video_cards_i915 && \
+			if ! use video_cards_i915 && \
 				! use video_cards_i965; then
-			driver_enable video_cards_intel i810 i915 i965
+			driver_enable video_cards_intel i915 i965
 		fi
 
 		# Nouveau code
 		driver_enable video_cards_nouveau nouveau
 
 		# ATI code
-		driver_enable video_cards_mach64 mach64
-		driver_enable video_cards_mga mga
-		driver_enable video_cards_r128 r128
-
 		driver_enable video_cards_r100 radeon
 		driver_enable video_cards_r200 r200
 		driver_enable video_cards_r300 r300
@@ -196,24 +196,17 @@ src_configure() {
 				! use video_cards_r600; then
 			driver_enable video_cards_radeon radeon r200 r300 r600
 		fi
-
-		driver_enable video_cards_savage savage
-		driver_enable video_cards_sis sis
-		driver_enable video_cards_tdfx tdfx
-		driver_enable video_cards_via unichrome
 	fi
 
 	myconf+="
 		$(use_enable !bindist texture-float)
-		$(use_enable gles gles1)
-		$(use_enable gles gles2)
+		$(use_enable gles1)
+		$(use_enable gles2)
 		$(use_enable egl)
-		$(use_enable openvg)
 	"
 	if use egl; then
-		use shared-glapi || die "egl needs shared-glapi. Please either enable shared-glapi or disable the egl use flag ."
 		myconf+="
-			--with-egl-platforms=x11,$(use wayland && echo "wayland,")drm
+			--with-egl-platforms=x11$(use wayland && echo ",wayland")$(use gbm && echo ",drm")
 			$(use_enable gallium gallium-egl)
 		"
 	fi
@@ -225,7 +218,11 @@ src_configure() {
 	if use gallium; then
 		myconf+="
 			--with-state-trackers=glx,dri$(use egl && echo ",egl")$(use openvg && echo ",vega")$(use d3d && echo ",d3d1x")
+			$(use_enable g3dvl)
 			$(use_enable llvm gallium-llvm)
+			$(use_enable openvg)
+			$(use_enable vdpau)
+			$(use_enable xvmc)
 		"
 		gallium_enable swrast
 		gallium_enable video_cards_vmware svga
@@ -243,23 +240,22 @@ src_configure() {
 				! use video_cards_r600; then
 			gallium_enable video_cards_radeon r300 r600
 		fi
-	else
-		if use video_cards_nouveau || use video_cards_vmware; then
-			elog "SVGA and nouveau drivers are available only via gallium interface."
-			elog "Enable gallium useflag if you want to use them."
-		fi
+	fi
+
+	# x86 hardened pax_kernel needs glx-rts, bug 240956
+	if use pax_kernel; then
+		myconf+="
+			$(use_enable x86 glx-rts)
+		"
 	fi
 
 	# --with-driver=dri|xlib|osmesa || do we need osmesa?
 	econf \
 		--disable-option-checking \
 		--with-driver=dri \
-		--disable-glut \
-		--without-demos \
 		--enable-xcb \
 		$(use_enable debug) \
-		$(use_enable motif glw) \
-		$(use_enable motif) \
+		$(use_enable gbm) \
 		$(use_enable nptl glx-tls) \
 		$(use_enable !pic asm) \
 		$(use_enable shared-dricore) \
@@ -273,30 +269,24 @@ src_install() {
 	base_src_install
 
 	if use !bindist; then
-		dodoc docs/patents.txt || die
+		dodoc docs/patents.txt
 	fi
 
 	# Save the glsl-compiler for later use
 	if ! tc-is-cross-compiler; then
-		dobin "${S}"/src/glsl/glsl_compiler || die
+		dobin "${S}"/src/glsl/glsl_compiler
 	fi
-	# Remove redundant headers
-	# GLUT thing
-	rm -f "${ED}"/usr/include/GL/glut*.h || die "Removing glut include failed."
-	# Glew includes
-	rm -f "${ED}"/usr/include/GL/{glew,glxew,wglew}.h \
-		|| die "Removing glew includes failed."
 
 	# Install config file for eselect mesa
 	insinto /usr/share/mesa
-	newins "${FILESDIR}/eselect-mesa.conf.7.12" eselect-mesa.conf || die
+	newins "${FILESDIR}/eselect-mesa.conf.7.12" eselect-mesa.conf
 
 	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib
 	# because user can eselect desired GL provider.
 	ebegin "Moving libGL and friends for dynamic switching"
 		dodir /usr/$(get_libdir)/opengl/${OPENGL_DIR}/{lib,extensions,include}
 		local x
-		for x in "${ED}"/usr/$(get_libdir)/libGL.{la,a,so*}; do
+		for x in "${ED}"/usr/$(get_libdir)/lib{EGL,GL,OpenVG}.{la,a,so*}; do
 			if [ -f ${x} -o -L ${x} ]; then
 				mv -f "${x}" "${ED}"/usr/$(get_libdir)/opengl/${OPENGL_DIR}/lib \
 					|| die "Failed to move ${x}"
@@ -322,7 +312,7 @@ src_install() {
 					insinto "/usr/$(get_libdir)/dri/"
 					if [ -f "${S}/$(get_libdir)/${x}" ]; then
 						insopts -m0755
-						doins "${S}/$(get_libdir)/${x}" || die "failed to install ${x}"
+						doins "${S}/$(get_libdir)/${x}"
 					fi
 				fi
 			done
@@ -358,6 +348,20 @@ pkg_postinst() {
 	if use !bindist; then
 		elog "USE=\"bindist\" was not set. Potentially patent encumbered code was"
 		elog "enabled. Please see patents.txt for an explanation."
+	fi
+
+	local using_radeon r_flag
+	for r_flag in ${RADEON_CARDS}; do
+		if use video_cards_${r_flag}; then
+			using_radeon=1
+			break
+		fi
+	done
+
+	if [[ ${using_radeon} = 1 ]] && ! has_version media-libs/libtxc_dxtn; then
+		elog "Note that in order to have full S3TC support, it is necessary to install"
+		elog "media-libs/libtxc_dxtn as well. This may be necessary to get nice"
+		elog "textures in some apps, and some others even require this to run."
 	fi
 }
 
