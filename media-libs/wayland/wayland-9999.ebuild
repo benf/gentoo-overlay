@@ -13,7 +13,7 @@ DESCRIPTION="wayland is a protocol and library for a (compositing) display serve
 HOMEPAGE="http://wayland.freedesktop.org"
 SRC_URI=""
 
-LICENSE="LGPL-2"
+LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="static-libs"
