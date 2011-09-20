@@ -21,17 +21,12 @@ IUSE="+poppler +svg +clients +simple-clients
 
 DEPEND="media-libs/wayland
 	>=media-libs/mesa-9999[gles2,egl]
-	simple-clients? ( media-libs/mesa[wayland] )
-	clients? ( media-libs/mesa[wayland] )
-	compositor-wayland? ( media-libs/mesa[wayland] )
-	compositor-openwfd? ( media-libs/mesa[gbm] )
-	compositor-drm? ( media-libs/mesa[gbm] )
 	x11-libs/pixman
-	=x11-libs/libxkbcommon-9999
 	media-libs/libpng
 	compositor-drm? (
 		>=sys-fs/udev-136
 		>=x11-libs/libdrm-2.4.25
+		media-libs/mesa[gbm]
 	)
 	compositor-x11? (
 		x11-libs/libxcb
@@ -39,13 +34,20 @@ DEPEND="media-libs/wayland
 	)
 	compositor-openwfd? (
 		media-libs/owfdrm
+		media-libs/mesa[gbm]
+	)
+	compositor-wayland? (
+		media-libs/mesa[wayland]
 	)
 	clients? (
+		media-libs/mesa[wayland]
 		dev-libs/glib:2
 		>=x11-libs/cairo-1.10.0[opengl]
 		|| ( x11-libs/gdk-pixbuf:2 <x11-libs/gtk+-2.20:2 )
+		=x11-libs/libxkbcommon-9999
 		poppler? ( app-text/poppler[cairo] )
 	)
+	simple-clients? ( media-libs/mesa[wayland] )
 	svg? ( gnome-base/librsvg )"
 
 RDEPEND="${DEPEND}"
