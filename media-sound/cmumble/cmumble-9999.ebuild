@@ -5,7 +5,6 @@
 EAPI=3
 
 EGIT_REPO_URI="git://gitorious.org/cmumble/cmumble.git"
-EGIT_BOOTSTRAP="eautoreconf"
 
 inherit autotools autotools-utils git-2
 
@@ -29,8 +28,13 @@ DEPEND="dev-libs/protobuf-c[protoc]
 
 RDEPEND="${DEPEND}"
 
-src_configure()
+PATCHES=(
+	# Fix Access violation by gst-inspect
+	"${FILESDIR}/${P}-Remove-Gstreamer-element-check.patch"
+)
+
+src_prepare()
 {
-	# Fix access violation by gst-inspect
-	GST_REGISTRY_UPDATE=no autotools-utils_src_configure
+	autotools-utils_src_prepare
+	eautoreconf
 }

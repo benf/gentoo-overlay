@@ -1,0 +1,17 @@
+diff --git a/configure.ac b/configure.ac
+index fed636d..cb39a15 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -38,12 +38,6 @@ PKG_CHECK_MODULES(CELT, [celt])
+ GST_ELEMENTS="appsrc appsink celtdec celtenc capsfilter
+ 	      audioconvert audioresample autoaudiosrc autoaudiosink"
+ 
+-for element in $GST_ELEMENTS
+-do
+-	AM_GST_ELEMENT_CHECK([$element], [],
+-			     AC_MSG_ERROR([gstreamer element $element not found]))
+-done
+-
+ if test "x$GCC" = "xyes"; then
+ 	GCC_CFLAGS="-Wall -g -Wstrict-prototypes -Wmissing-prototypes -fvisibility=hidden"
+ fi
