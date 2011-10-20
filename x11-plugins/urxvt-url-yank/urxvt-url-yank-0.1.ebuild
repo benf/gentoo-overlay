@@ -3,7 +3,8 @@
 # $Header: $
 
 EGIT_REPO_URI="git://tachyon.jukie.net/urxvt"
-inherit git
+
+inherit git-2
 
 DESCRIPTION="mouse free url yanking in urxvt"
 HOMEPAGE="http://www.jukie.net/~bart/blog/urxvt-url-yank"

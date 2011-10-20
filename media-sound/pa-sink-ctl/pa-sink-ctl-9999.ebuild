@@ -7,7 +7,7 @@ EAPI=3
 EGIT_REPO_URI="git://gitorious.org/pa-sink-ctl/pa-sink-ctl.git"
 EGIT_BOOTSTRAP="eautoreconf"
 
-inherit autotools-utils git
+inherit autotools-utils git-2
 
 DESCRIPTION="NCurses based Pulseaudio control client"
 HOMEPAGE="http://gitorious.org/pa-sink-ctl"
