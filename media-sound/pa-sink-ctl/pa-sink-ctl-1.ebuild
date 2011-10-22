@@ -7,7 +7,7 @@ EAPI=3
 inherit autotools-utils
 
 DESCRIPTION="NCurses based Pulseaudio control client"
-HOMEPAGE="http://gitorious.org/pa-sink-ctl"
+HOMEPAGE="https://gitorious.org/pa-sink-ctl/pages/Home"
 SRC_URI="http://gitorious.org/${PN}/${PN}-gitorious-wiki/blobs/raw/master/${P}.tar.bz2"
 
 LICENSE="GPL-3"

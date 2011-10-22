@@ -10,7 +10,7 @@ EGIT_BOOTSTRAP="eautoreconf"
 inherit autotools-utils git-2
 
 DESCRIPTION="NCurses based Pulseaudio control client"
-HOMEPAGE="http://gitorious.org/pa-sink-ctl"
+HOMEPAGE="https://gitorious.org/pa-sink-ctl/pages/Home"
 SRC_URI=""
 
 LICENSE="GPL-3"
