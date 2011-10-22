@@ -22,4 +22,4 @@ DEPEND="media-sound/pulseaudio
 	sys-libs/ncurses"
 RDEPEND="${DEPEND}"
 
-DOCS=( "README" "AUTHORS" "ChangeLog" )
+DOCS=( "README" "AUTHORS" )
