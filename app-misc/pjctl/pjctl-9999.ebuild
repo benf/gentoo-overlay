@@ -18,6 +18,6 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="dev-libs/glib"
+DEPEND="dev-libs/openssl"
 
 RDEPEND="${DEPEND}"
