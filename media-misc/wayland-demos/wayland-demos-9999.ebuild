@@ -5,7 +5,6 @@
 EAPI=3
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/wayland/wayland-demos"
-EGIT_BOOTSTRAP="eautoreconf"
 
 inherit autotools autotools-utils git-2
 
@@ -70,4 +69,5 @@ src_prepare()
 	sed -i -e "/PROGRAMS/s/noinst/bin/" \
 		{compositor,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
+	eautoreconf
 }
