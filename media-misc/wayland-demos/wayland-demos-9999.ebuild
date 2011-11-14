@@ -42,7 +42,7 @@ DEPEND="media-libs/wayland
 	clients? (
 		media-libs/mesa[wayland]
 		dev-libs/glib:2
-		virtual/jpeg
+		media-libs/libjpeg-turbo
 		>=x11-libs/cairo-1.11.3[opengl]
 		|| ( x11-libs/gdk-pixbuf:2 <x11-libs/gtk+-2.20:2 )
 		=x11-libs/libxkbcommon-9999
