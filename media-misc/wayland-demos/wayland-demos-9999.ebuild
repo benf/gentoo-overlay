@@ -15,7 +15,7 @@ SRC_URI=""
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+poppler +svg +clients +simple-clients
+IUSE="+poppler +svg +clients +simple-clients +gnome
 	+compositor-drm +compositor-x11 +compositor-wayland compositor-openwfd"
 
 DEPEND="media-libs/wayland
@@ -47,6 +47,11 @@ DEPEND="media-libs/wayland
 		=x11-libs/libxkbcommon-9999
 		poppler? ( app-text/poppler[cairo] )
 	)
+	gnome? (
+		x11-themes/gnome-backgrounds
+		x11-themes/gnome-icon-theme
+	)
+	!gnome? ( x11-themes/tango-icon-theme )
 	simple-clients? ( media-libs/mesa[wayland] )
 	svg? ( gnome-base/librsvg )"
 
@@ -69,5 +74,17 @@ src_prepare()
 	sed -i -e "/PROGRAMS/s/noinst/bin/" \
 		{compositor,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
+
+	sed -i \
+		-e "s:./clients/:/usr/bin/wayland-:" \
+		-e "s:/usr/share/backgrounds/:/usr/share/pixmaps/backgrounds/:" \
+		data/desktop-shell.ini || die "sed data/desktop-shell.ini failed!"
+
+	use gnome || sed -i \
+		-e "s:icons/gnome:icons/Tango:" \
+		-e "/gnome-terminal/d" \
+		-e "s/^background-image=.*gnome.*/#\\0/" \
+		data/desktop-shell.ini || die "sed data/desktop-shell.ini failed!"
+
 	eautoreconf
 }
