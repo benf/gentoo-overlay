@@ -10,3 +10,7 @@
 # Benjamin Franzke <benjaminfranzke@googlemail.com> (22 October 2011)
 # pa-sink-ctl live ebuild
 =media-sound/pa-sink-ctl-9999
+
+# Benjamin Franzke <benjaminfranzke@googlemail.com> (22 October 2011)
+# pjctl live ebuild
+=app-misc/pjctl-9999
