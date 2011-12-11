@@ -11,6 +11,10 @@
 # pa-sink-ctl live ebuild
 =media-sound/pa-sink-ctl-9999
 
-# Benjamin Franzke <benjaminfranzke@googlemail.com> (22 October 2011)
+# Benjamin Franzke <benjaminfranzke@googlemail.com> (11 October 2011)
 # pjctl live ebuild
 =app-misc/pjctl-9999
+
+# Benjamin Franzke <benjaminfranzke@googlemail.com> (11 December 2011)
+# exposong live ebuild
+=app-office/exposong-9999
