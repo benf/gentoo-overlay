@@ -4,7 +4,7 @@
 
 EAPI=3
 
-EGIT_REPO_URI="git://anongit.freedesktop.org/wayland/wayland-demos"
+EGIT_REPO_URI="git://anongit.freedesktop.org/wayland/weston"
 
 inherit autotools autotools-utils git-2
 
@@ -55,7 +55,7 @@ RDEPEND="${DEPEND}"
 # FIXME: add with-poppler to wayland configure
 myeconfargs=(
 	# prefix with "wayland-" if not already
-	"--program-transform-name='/^wayland-/!s/^/wayland-/'"
+	"--program-transform-name='/^weston/!s/^/weston-/'"
 	$(use_enable clients)
 	$(use_enable simple-clients)
 	$(use_enable compositor-drm drm-compositor)
@@ -67,7 +67,7 @@ myeconfargs=(
 src_prepare()
 {
 	sed -i -e "/PROGRAMS/s/noinst/bin/" \
-		{compositor,clients}"/Makefile.am" || \
+		{src,clients}"/Makefile.am" || \
 		die "sed {compositor,clients}/Makefile.am failed!"
 	eautoreconf
 }
