@@ -243,7 +243,7 @@ src_install() {
 
 	# FIXME: dont collide with systemd-units
 	dodir /etc/systemd/system/
-	mv "${D}"/lib/systemd/system/cups.service "${D}"/etc/systemd/system/
+	mv "${D}"/usr/lib/systemd/system/cups.service "${D}"/etc/systemd/system/
 
 	use X || rm -r "${D}"/usr/share/applications
 
