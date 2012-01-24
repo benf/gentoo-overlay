@@ -62,6 +62,7 @@ myeconfargs=(
 	$(use_enable compositor-x11 x11-compositor)
 	$(use_enable compositor-wayland wayland-compositor)
 	$(use_enable compositor-openwfd openwfd-compositor)
+	--enable-setuid-install
 )
 
 src_prepare()
