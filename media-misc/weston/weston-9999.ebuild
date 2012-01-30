@@ -18,7 +18,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="+poppler +svg +clients +simple-clients
 	+compositor-drm +compositor-x11 +compositor-wayland compositor-openwfd"
 
-DEPEND="media-libs/wayland
+DEPEND="dev-libs/wayland
 	>=media-libs/mesa-9999[gles2,egl]
 	x11-libs/pixman
 	media-libs/libpng
