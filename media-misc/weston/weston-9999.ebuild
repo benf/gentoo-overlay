@@ -67,8 +67,8 @@ myeconfargs=(
 
 src_prepare()
 {
-	sed -i -e "/PROGRAMS/s/noinst/bin/" \
+	sed -i -e "s/noinst_PROGRAMS =/bin_PROGRAMS +=/" \
 		{src,clients}"/Makefile.am" || \
-		die "sed {compositor,clients}/Makefile.am failed!"
+		die "sed {src,clients}/Makefile.am failed!"
 	eautoreconf
 }
