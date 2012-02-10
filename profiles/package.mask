@@ -17,3 +17,7 @@
 # Benjamin Franzke <benjaminfranzke@googlemail.com> (11 December 2011)
 # exposong live ebuild
 =app-office/exposong-9999
+
+# Benjamin Franzke <benjaminfranzke@googlemail.com> (10 Februar 2012)
+# networkmanager live ebuild
+=net-misc/networkmanager-9999
