@@ -5,6 +5,7 @@
 EAPI=3
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/wayland/weston"
+AUTOTOOLS_AUTORECONF=1
 
 inherit autotools autotools-utils git-2
 
@@ -70,5 +71,5 @@ src_prepare()
 	sed -i -e "s/noinst_PROGRAMS =/bin_PROGRAMS +=/" \
 		{src,clients}"/Makefile.am" || \
 		die "sed {src,clients}/Makefile.am failed!"
-	eautoreconf
+	autotools-utils_src_prepare
 }

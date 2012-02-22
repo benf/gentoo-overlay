@@ -5,7 +5,7 @@
 EAPI=3
 
 EGIT_REPO_URI="git://gitorious.org/pa-sink-ctl/pa-sink-ctl.git"
-EGIT_BOOTSTRAP="eautoreconf"
+AUTOTOOLS_AUTORECONF=1
 
 inherit autotools-utils git-2
 

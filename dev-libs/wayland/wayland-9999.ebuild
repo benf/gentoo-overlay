@@ -5,7 +5,7 @@
 EAPI=3
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/wayland/wayland"
-EGIT_BOOTSTRAP="eautoreconf"
+AUTOTOOLS_AUTORECONF=1
 
 inherit autotools autotools-utils git-2
 
