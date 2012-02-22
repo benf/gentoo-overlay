@@ -18,6 +18,6 @@
 # exposong live ebuild
 =app-office/exposong-9999
 
-# Benjamin Franzke <benjaminfranzke@googlemail.com> (10 Februar 2012)
-# networkmanager live ebuild
-=net-misc/networkmanager-9999
+# Benjamin Franzke <benjaminfranzke@googlemail.com> (22 Februar 2012)
+# networkmanager testing release
+=net-misc/networkmanager-0.9.3.990

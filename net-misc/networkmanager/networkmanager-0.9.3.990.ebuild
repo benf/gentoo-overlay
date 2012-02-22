@@ -7,8 +7,7 @@ GNOME_ORG_MODULE="NetworkManager"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/NetworkManager/NetworkManager"
 
-inherit autotools eutils gnome.org linux-info systemd git-2
-SRC_URI=""
+inherit autotools eutils gnome.org linux-info systemd
 
 DESCRIPTION="Network configuration and management in an easy way. Desktop environment independent."
 HOMEPAGE="http://www.gnome.org/projects/NetworkManager/"
@@ -113,9 +112,6 @@ src_prepare() {
 	# Update init.d script to provide net and use inactive status if not connected
 	epatch "${FILESDIR}/networkmanager-0.9.2.0-init-provide-net.patch"
 
-	gtkdocize
-	eautopoint
-	intltoolize --force --automake
 	eautoreconf
 	default
 }
@@ -140,8 +136,10 @@ src_configure() {
 
 		if use systemd ; then
 			ECONF="${ECONF} --with-session-tracking=systemd"
-		else
+		elif use consolekit; then
 			ECONF="${ECONF} --with-session-tracking=ck"
+		else
+			ECONF="${ECONF} --with-session-tracking=none"
 		fi
 
 		if use nss ; then
