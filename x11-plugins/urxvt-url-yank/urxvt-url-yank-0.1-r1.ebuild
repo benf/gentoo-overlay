@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EGIT_REPO_URI="git://tachyon.jukie.net/urxvt"
+EGIT_REPO_URI="git://git.jukie.net/urxvt"
 
 inherit git-2
 
