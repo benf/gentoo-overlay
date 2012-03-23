@@ -27,6 +27,7 @@ DEPEND="dev-libs/wayland
 		>=sys-fs/udev-136
 		>=x11-libs/libdrm-2.4.25
 		media-libs/mesa[gbm]
+		sys-libs/mtdev
 	)
 	compositor-x11? (
 		x11-libs/libxcb
