@@ -16,13 +16,15 @@ SRC_URI=""
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+poppler +svg +clients +simple-clients
+IUSE="+poppler +svg +clients +simple-clients +weston-launch systemd
 	+compositor-drm +compositor-x11 +compositor-wayland compositor-openwfd"
 
 DEPEND="dev-libs/wayland
 	>=media-libs/mesa-9999[gles2,egl]
 	x11-libs/pixman
 	media-libs/libpng
+	systemd? ( sys-apps/systemd )
+	weston-launch? ( virtual/pam )
 	compositor-drm? (
 		>=sys-fs/udev-136
 		>=x11-libs/libdrm-2.4.25
@@ -55,6 +57,7 @@ DEPEND="dev-libs/wayland
 RDEPEND="${DEPEND}"
 
 # FIXME: add with-poppler to wayland configure
+# FIXME: make systemd non-automagic
 myeconfargs=(
 	# prefix with "wayland-" if not already
 	"--program-transform-name='/^weston/!s/^/weston-/'"
@@ -64,6 +67,7 @@ myeconfargs=(
 	$(use_enable compositor-x11 x11-compositor)
 	$(use_enable compositor-wayland wayland-compositor)
 	$(use_enable compositor-openwfd openwfd-compositor)
+	$(use_enable weston-launch)
 	--enable-setuid-install
 )
 
