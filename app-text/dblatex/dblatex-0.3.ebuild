@@ -25,11 +25,16 @@ DEPEND="app-text/texlive
 	dev-texlive/texlive-mathextra
 	dev-texlive/texlive-xetex
 	dev-libs/libxslt
+	gnome-base/librsvg
 	app-text/docbook-xml-dtd
 	dev-texlive/texlive-pictures"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
+	sed -i -e "s:base=package_base:base='/usr/share/dblatex/':" scripts/dblatex
+	sed -i -e 's/"inkscape.*" % /"rsvg-convert -f %s %s -o %s" % /' \
+		lib/dbtexmf/core/imagedata.py
+
 	distutils_src_prepare
 }
 
@@ -39,13 +44,6 @@ src_compile() {
 
 src_install() {
 	distutils_src_install
-	newbin "${S}"/scripts/dblatex docbook2latex || die "newbin failed"
-	mv "${D}"/usr/share/man/man1/dblatex.1.gz \
-		"${D}"/usr/share/man/man1/docbook2latex.1.gz || die "mv dblatex.1.gz"
-	mv "${D}"/usr/share/doc/${PN}/* "${D}"/usr/share/doc/${PF} || die "mv doc"
-
-	einfo "This package installs its main binary as"
-	einfo "  docbook2latex"
-	einfo "to avoid collisions with other latex packages."
+	newbin "${S}"/scripts/dblatex dblatex || die "newbin failed"
 }
 
