@@ -6,7 +6,7 @@ EAPI=3
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/libbacklight"
 
-inherit autotools autotools-utils git-2
+inherit autotools autotools-utils git
 
 DESCRIPTION="Linux backlight interface library"
 HOMEPAGE="http://cgit.freedesktop.org/libbacklight/"

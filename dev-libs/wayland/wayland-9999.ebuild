@@ -7,7 +7,7 @@ EAPI=3
 EGIT_REPO_URI="git://anongit.freedesktop.org/wayland/wayland"
 AUTOTOOLS_AUTORECONF=1
 
-inherit autotools autotools-utils git-2
+inherit autotools autotools-utils git
 
 DESCRIPTION="wayland is a protocol and library for a (compositing) display server"
 HOMEPAGE="http://wayland.freedesktop.org"

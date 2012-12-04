@@ -5,7 +5,7 @@
 EAPI=2
 
 EGIT_REPO_URI="git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git"
-inherit multilib git-2
+inherit multilib git
 
 DESCRIPTION="Firmware for Atheros ar9170-based WiFi USB adapters (ar9170usb module)"
 HOMEPAGE="http://wireless.kernel.org/en/users/Drivers/ar9170#open_firmware"

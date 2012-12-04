@@ -7,7 +7,7 @@ EAPI=3
 EGIT_REPO_URI="git://gitorious.org/luat/luat.git"
 AUTOTOOLS_AUTORECONF=1
 
-inherit autotools autotools-utils git-2
+inherit autotools autotools-utils git
 
 DESCRIPTION="Linux C-library for lua to receive systeminformation"
 HOMEPAGE="https://gitorious.org/luat/luat"

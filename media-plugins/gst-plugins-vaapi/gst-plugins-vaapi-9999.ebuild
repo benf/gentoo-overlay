@@ -7,7 +7,7 @@ EAPI=3
 EGIT_REPO_URI="http://code.splitted-desktop.com/git/gstreamer-vaapi.git"
 EGIT_BOOTSTRAP="echo 'EXTRA_DIST =' > gtk-doc.make; eautoreconf"
 
-inherit autotools autotools-utils git-2
+inherit autotools autotools-utils git
 
 MY_PN="gstreamer-vaapi"
 DESCRIPTION="GStreamer VA-API plugins"

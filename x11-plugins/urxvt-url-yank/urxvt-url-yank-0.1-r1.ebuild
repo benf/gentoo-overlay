@@ -4,7 +4,7 @@
 
 EGIT_REPO_URI="git://git.jukie.net/urxvt"
 
-inherit git-2
+inherit git
 
 DESCRIPTION="mouse free url yanking in urxvt"
 HOMEPAGE="http://www.jukie.net/~bart/blog/urxvt-url-yank"

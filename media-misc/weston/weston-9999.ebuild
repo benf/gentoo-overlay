@@ -7,7 +7,7 @@ EAPI=3
 EGIT_REPO_URI="git://anongit.freedesktop.org/wayland/weston"
 AUTOTOOLS_AUTORECONF=1
 
-inherit autotools autotools-utils git-2
+inherit autotools autotools-utils git
 
 DESCRIPTION="demos for wayland the (compositing) display server library"
 HOMEPAGE="http://wayland.freedesktop.org"

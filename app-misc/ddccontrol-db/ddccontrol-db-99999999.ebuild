@@ -6,7 +6,7 @@ EAPI=3
 EGIT_REPO_URI="git://dccontrol.git.sourceforge.net/gitroot/ddccontrol/${PN}"
 EGIT_BOOTSTRAP="_autogen"
 
-inherit autotools autotools-utils git-2
+inherit autotools autotools-utils git
 
 DESCRIPTION="DDCControl monitor database"
 HOMEPAGE="http://ddccontrol.sourceforge.net/"
