@@ -7,7 +7,7 @@ EAPI=3
 EGIT_REPO_URI="git://anongit.freedesktop.org/~bnf/owfdrm"
 AUTOTOOLS_AUTORECONF=1
 
-inherit autotools autotools-utils git
+inherit autotools autotools-utils git-2
 
 DESCRIPTION="OpenWF Display Implementation on KMS/DRM"
 HOMEPAGE="http://cgit.freedesktop.org/~bnf/owfdrm/"

@@ -7,7 +7,7 @@ EAPI=3
 EGIT_REPO_URI="git://gitorious.org/cmumble/cmumble.git"
 AUTOTOOLS_AUTORECONF=1
 
-inherit autotools autotools-utils git
+inherit autotools autotools-utils git-2
 
 DESCRIPTION="Curses based mumble client"
 HOMEPAGE="https://gitorious.org/cmumble"
