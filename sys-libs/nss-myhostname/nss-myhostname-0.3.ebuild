@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
 
-DEPEND=""
+DEPEND="!>=sys-apps/systemd-197"
 RDEPEND="${DEPEND}"
 
 foreachabi() {
