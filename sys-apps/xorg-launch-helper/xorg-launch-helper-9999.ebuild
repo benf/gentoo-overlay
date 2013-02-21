@@ -16,7 +16,7 @@ SRC_URI=""
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="X"
+IUSE=""
 
 DEPEND="sys-apps/systemd
 	x11-base/xorg-server"
