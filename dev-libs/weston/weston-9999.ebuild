@@ -20,7 +20,7 @@ IUSE="+poppler +svg +clients +simple-clients +weston-launch systemd
 	+drm +x11 +compositor-wayland"
 
 DEPEND="dev-libs/wayland
-	>=media-libs/mesa-9999[gles2,egl]
+	media-libs/mesa[gles2,egl]
 	x11-libs/pixman
 	media-libs/libpng
 	systemd? ( sys-apps/systemd )
