@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND=""
-RDEPEND="|| ( sys-fs/udev
+RDEPEND="|| ( virtual/udev
 		sys-apps/hotplug )"
 
 S="${WORKDIR}/${MY_P}"
