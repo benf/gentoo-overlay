@@ -21,11 +21,11 @@ IUSE=""
 DEPEND="dev-libs/protobuf-c[protoc]
 	>=dev-libs/glib-2.28:2
 	net-libs/glib-networking[ssl]
-	media-libs/gstreamer
+	media-libs/gstreamer:0.10
 	media-libs/celt
-	media-libs/gst-plugins-base
-	media-libs/gst-plugins-good
-	media-plugins/gst-plugins-celt"
+	media-libs/gst-plugins-base:0.10
+	media-libs/gst-plugins-good:0.10
+	media-plugins/gst-plugins-celt:0.10"
 
 RDEPEND="${DEPEND}"
 
