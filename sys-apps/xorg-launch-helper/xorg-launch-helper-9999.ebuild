@@ -22,6 +22,11 @@ DEPEND="sys-apps/systemd
 	x11-base/xorg-server"
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	sed -i "/^AC_PROG_CC$/s/$/\nAM_PROG_CC_C_O/" configure.ac
+	autotools-utils_src_prepare
+}
+
 src_configure() {
 	local myeconfargs=(
 		--with-systemduserunitdir="$(systemd_get_userunitdir)"
