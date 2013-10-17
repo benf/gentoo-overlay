@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND=">=dev-python/imaging-1.1.5
+DEPEND="virtual/python-imaging
 	app-office/blockdiag
 	dev-python/webcolors
 	dev-python/funcparserlib"
