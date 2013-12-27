@@ -1,7 +1,3 @@
-# Benjamin Franzke <benjaminfranzke@googlemail.com> (30 Juli 2010)
-# wayland live ebuilds
-=dev-libs/wayland-9999
-
 # Benjamin Franzke <benjaminfranzke@googlemail.com> (22 Juli 2011)
 # gst-plugins-vaapi live ebuild
 =media-plugins/gst-plugins-vaapi-9999
