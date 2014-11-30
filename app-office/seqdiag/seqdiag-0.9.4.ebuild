@@ -16,7 +16,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="virtual/python-imaging
-	app-office/blockdiag
+	>=app-office/blockdiag-1.4.4
 	dev-python/webcolors
 	dev-python/funcparserlib"
 RDEPEND="${DEPEND}"
