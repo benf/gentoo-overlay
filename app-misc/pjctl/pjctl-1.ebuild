@@ -8,7 +8,7 @@ inherit autotools autotools-utils
 
 DESCRIPTION="network projector control utility based on pjlink protocol"
 HOMEPAGE="https://gitorious.org/pjctl/pjctl"
-SRC_URI="http://gitorious.org/pjctl/pjctl-gitorious-wiki/blobs/raw/master/pjctl-1.tar.bz2"
+SRC_URI="https://bnfr.net/downloads/pjctl/pjctl-1.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
