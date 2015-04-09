@@ -8,7 +8,7 @@ inherit autotools-utils
 
 DESCRIPTION="NCurses based Pulseaudio control client"
 HOMEPAGE="https://gitorious.org/pa-sink-ctl/pages/Home"
-SRC_URI="http://gitorious.org/${PN}/${PN}-gitorious-wiki/blobs/raw/master/${P}.tar.bz2"
+SRC_URI="https://bnfr.net/downloads/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-3"
 SLOT="0"
