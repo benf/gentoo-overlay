@@ -4,13 +4,13 @@
 
 EAPI=3
 
-EGIT_REPO_URI="git://gitorious.org/cmumble/cmumble.git"
+EGIT_REPO_URI="https://git.bnfr.net/cmumble"
 AUTOTOOLS_AUTORECONF=1
 
 inherit autotools autotools-utils git-2
 
 DESCRIPTION="Curses based mumble client"
-HOMEPAGE="https://gitorious.org/cmumble"
+HOMEPAGE="https://git.bnfr.net/cmumble"
 SRC_URI=""
 
 LICENSE="GPL-3"
@@ -18,11 +18,11 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="dev-libs/protobuf-c[protoc]
+DEPEND="dev-libs/protobuf-c
 	>=dev-libs/glib-2.28:2
 	net-libs/glib-networking[ssl]
 	media-libs/gstreamer:0.10
-	media-libs/celt
+	media-libs/celt:0.5.1
 	media-libs/gst-plugins-base:0.10
 	media-libs/gst-plugins-good:0.10
 	media-plugins/gst-plugins-celt:0.10"
