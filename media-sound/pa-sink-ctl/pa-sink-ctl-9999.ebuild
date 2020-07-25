@@ -2,15 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=5
 
-EGIT_REPO_URI="git://gitorious.org/pa-sink-ctl/pa-sink-ctl.git"
+EGIT_REPO_URI="https://git.bnfr.net/pa-sink-ctl"
 AUTOTOOLS_AUTORECONF=1
 
-inherit autotools-utils git-2
+inherit autotools-utils git-r3
 
 DESCRIPTION="NCurses based Pulseaudio control client"
-HOMEPAGE="https://gitorious.org/pa-sink-ctl/pages/Home"
+HOMEPAGE="https://git.bnfr.net/pa-sink-ctl"
 SRC_URI=""
 
 LICENSE="GPL-3"
